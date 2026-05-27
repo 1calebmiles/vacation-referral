@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920">
+    <title>Route 504 Display</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cc-red:    #9b1c1c;
+            --cc-cream:  #fdf6e3;
+            --gold:      #f0b429;
+            --navy:      #0d1b4b;
+            --blue:      #1a3a8f;
+            --white:     #ffffff;
+        }
+
+        html, body {
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* ── Slide container ── */
+        .slides { width: 1920px; height: 1080px; position: relative; }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            display: flex;
+        }
+
+        .slide.active { opacity: 1; z-index: 1; }
+
+        /* ── Progress bar ── */
+        .progress-wrap {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: none;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 1 — Community Coffee Pricing
+        ══════════════════════════════════════ */
+        #slide-coffee {
+            background: var(--cc-cream);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .cc-logo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .cc-bean {
+            font-size: 80px;
+            margin-bottom: 10px;
+        }
+
+        .cc-name {
+            font-size: 72px;
+            font-weight: 900;
+            color: var(--cc-red);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .cc-tagline {
+            font-size: 28px;
+            color: #6b3a2a;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 6px;
+            opacity: 0.75;
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 1600px;
+        }
+
+        .price-card {
+            background: white;
+            border-radius: 16px;
+            padding: 36px 28px;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border-top: 6px solid var(--cc-red);
+        }
+
+        .price-size {
+            font-size: 20px;
+            font-weight: 700;
+            color: #6b3a2a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .price-amount {
+            font-size: 56px;
+            font-weight: 900;
+            color: var(--cc-red);
+            line-height: 1;
+        }
+
+        .price-unit {
+            font-size: 18px;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .price-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 14px;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 2 — Disney / Castle
+        ══════════════════════════════════════ */
+        #slide-disney {
+            background: linear-gradient(160deg, #0d1b4b 0%, #1a3a8f 45%, #2d1b69 100%);
+            flex-direction: row;
+            align-items: stretch;
+        }
+
+        .disney-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 80px 80px 120px;
+            position: relative;
+        }
+
+        .disney-badge {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 28px;
+            border-radius: 40px;
+            margin-bottom: 36px;
+            width: fit-content;
+        }
+
+        .disney-headline {
+            font-size: 88px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.0;
+            margin-bottom: 16px;
+        }
+
+        .disney-headline .gold { color: var(--gold); }
+
+        .disney-sub {
+            font-size: 30px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+            margin-bottom: 48px;
+            max-width: 680px;
+        }
+
+        .dest-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .dest-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 26px;
+            color: rgba(255,255,255,0.9);
+            font-weight: 600;
+        }
+
+        .dest-item .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Castle silhouette area */
+        .disney-right {
+            width: 640px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Night sky gradient */
+        .disney-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #040d2e 0%, #0d1b4b 40%, #1a1a3e 70%, #2d1544 100%);
+        }
+
+        /* Stars */
+        .stars {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.3; transform: scale(1); }
+            to   { opacity: 1;   transform: scale(1.3); }
+        }
+
+        /* Castle SVG */
+        .castle-wrap {
+            position: relative;
+            z-index: 2;
+            width: 500px;
+        }
+
+        .castle-wrap svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 40px rgba(240,180,41,0.4));
+        }
+
+        /* Fireworks */
+        .firework {
+            position: absolute;
+            z-index: 3;
+        }
+
+        @keyframes burst {
+            0%   { transform: scale(0); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .fw-ring {
+            border-radius: 50%;
+            animation: burst 1.2s ease-out infinite;
+            border: 3px solid;
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 3 — Cruises
+        ══════════════════════════════════════ */
+        #slide-cruise {
+            background: linear-gradient(160deg, #003366 0%, #005b99 50%, #0080cc 100%);
+            flex-direction: row;
+            align-items: stretch;
+        }
+
+        .cruise-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 80px 80px 120px;
+        }
+
+        .cruise-headline {
+            font-size: 80px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .cruise-headline .gold { color: var(--gold); }
+
+        .cruise-sub {
+            font-size: 28px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.55;
+            margin-bottom: 50px;
+            max-width: 660px;
+        }
+
+        .cruise-lines {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            max-width: 640px;
+        }
+
+        .cruise-line {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .cruise-right {
+            width: 740px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ocean waves */
+        .ocean {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 300px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,100,180,0.4) 60%, #005b99 100%);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0; left: -100%; right: -100%;
+            height: 120px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            animation: wave 6s ease-in-out infinite;
+        }
+
+        .wave:nth-child(2) { animation-delay: -2s; animation-duration: 8s; bottom: 20px; opacity: 0.5; }
+        .wave:nth-child(3) { animation-delay: -4s; animation-duration: 5s; bottom: 40px; opacity: 0.3; }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50%       { transform: translateX(8%); }
+        }
+
+        .ship-emoji {
+            font-size: 200px;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-16px); }
+        }
+
+        /* ══════════════════════════════════════
+           SLIDE 4 — QR Code CTA
+        ══════════════════════════════════════ */
+        #slide-qr {
+            background: linear-gradient(135deg, var(--navy) 0%, #1a3a8f 60%, #2d1b69 100%);
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 120px;
+        }
+
+        .qr-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .qr-eyebrow {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .qr-headline {
+            font-size: 96px;
+            font-weight: 900;
+            color: white;
+            line-height: 1.0;
+            margin-bottom: 24px;
+        }
+
+        .qr-headline .gold { color: var(--gold); }
+
+        .qr-body {
+            font-size: 30px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            max-width: 700px;
+            margin-bottom: 48px;
+        }
+
+        .qr-points {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .qr-point {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 26px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .qr-check {
+            width: 36px;
+            height: 36px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            color: var(--navy);
+            font-weight: 900;
+        }
+
+        .qr-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .qr-frame {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 0 80px rgba(240,180,41,0.3), 0 0 0 4px var(--gold);
+        }
+
+        .qr-frame img {
+            width: 280px;
+            height: 280px;
+            display: block;
+        }
+
+        .qr-caption {
+            font-size: 22px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .qr-url {
+            font-size: 20px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slides">
+
+    <!-- ── SLIDE 1: Community Coffee Pricing ── -->
+    <div class="slide active" id="slide-coffee">
+        <div class="cc-logo-area">
+            <div class="cc-bean">☕</div>
+            <div class="cc-name">Community Coffee</div>
+            <div class="cc-tagline">Louisiana's Favorite Since 1919</div>
+        </div>
+        <!-- Price cards are populated from URL params by the script below.
+             Example URL: tv-display.html?p1=1.25&n1=Dark+Roast&s1=12oz&p2=1.50&n2=Medium+Roast&s2=12oz
+             If no ?p1= param is present, this entire slide is removed from the rotation. -->
+        <div class="price-grid" id="price-grid"></div>
+    </div>
+
+    <!-- ── SLIDE 2: Disney / Castle ── -->
+    <div class="slide" id="slide-disney">
+        <div class="disney-left">
+            <div class="disney-badge">★ Diamond Authorized Disney Travel Agency</div>
+            <div class="disney-headline">
+                Book Disney<br>for Only<br><span class="gold">$200 Down</span>
+            </div>
+            <div class="disney-sub">
+                Reserve your family's dream vacation today. Pay the full balance <strong style="color:white">30 days before your trip</strong> — not upfront.
+            </div>
+            <div class="dest-list">
+                <div class="dest-item"><span class="dot"></span> Walt Disney World · Orlando</div>
+                <div class="dest-item"><span class="dot"></span> Disneyland · California</div>
+                <div class="dest-item"><span class="dot"></span> Disney Aulani · Hawaii</div>
+                <div class="dest-item"><span class="dot"></span> Disney Cruise Line</div>
+            </div>
+        </div>
+        <div class="disney-right">
+            <!-- Stars -->
+            <div class="stars" id="stars"></div>
+
+            <!-- Fireworks -->
+            <div class="firework" style="top:80px; left:120px;">
+                <div class="fw-ring" style="width:80px;height:80px;border-color:#FFD700;animation-delay:0s;"></div>
+            </div>
+            <div class="firework" style="top:140px; right:100px;">
+                <div class="fw-ring" style="width:60px;height:60px;border-color:#FF6B9D;animation-delay:0.6s;"></div>
+            </div>
+            <div class="firework" style="top:60px; right:200px;">
+                <div class="fw-ring" style="width:100px;height:100px;border-color:#7DF9FF;animation-delay:1.1s;"></div>
+            </div>
+            <div class="firework" style="top:200px; left:60px;">
+                <div class="fw-ring" style="width:50px;height:50px;border-color:#FFD700;animation-delay:1.8s;"></div>
+            </div>
+
+            <!-- Castle -->
+            <div class="castle-wrap">
+                <svg viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg" fill="#c8a8f0">
+                    <!-- Base platform -->
+                    <rect x="50" y="300" width="400" height="80" rx="4"/>
+                    <!-- Left tower base -->
+                    <rect x="60" y="210" width="80" height="110"/>
+                    <!-- Right tower base -->
+                    <rect x="360" y="210" width="80" height="110"/>
+                    <!-- Center tower base -->
+                    <rect x="180" y="180" width="140" height="140"/>
+                    <!-- Left mini tower -->
+                    <rect x="70" y="150" width="60" height="80"/>
+                    <!-- Right mini tower -->
+                    <rect x="370" y="150" width="60" height="80"/>
+                    <!-- Center tall tower -->
+                    <rect x="210" y="80" width="80" height="120"/>
+                    <!-- Left turret top -->
+                    <polygon points="70,150 130,150 100,100"/>
+                    <!-- Right turret top -->
+                    <polygon points="370,150 430,150 400,100"/>
+                    <!-- Center spire -->
+                    <polygon points="210,80 290,80 250,10"/>
+                    <!-- Windows -->
+                    <rect x="230" y="220" width="40" height="50" rx="20" fill="#0d1b4b" opacity="0.6"/>
+                    <rect x="85" y="240" width="30" height="35" rx="15" fill="#0d1b4b" opacity="0.6"/>
+                    <rect x="385" y="240" width="30" height="35" rx="15" fill="#0d1b4b" opacity="0.6"/>
+                    <rect x="230" y="100" width="40" height="40" rx="20" fill="#0d1b4b" opacity="0.6"/>
+                    <!-- Battlements left tower -->
+                    <rect x="63" y="143" width="12" height="14"/>
+                    <rect x="80" y="143" width="12" height="14"/>
+                    <rect x="97" y="143" width="12" height="14"/>
+                    <rect x="114" y="143" width="12" height="14"/>
+                    <!-- Battlements right tower -->
+                    <rect x="363" y="143" width="12" height="14"/>
+                    <rect x="380" y="143" width="12" height="14"/>
+                    <rect x="397" y="143" width="12" height="14"/>
+                    <rect x="414" y="143" width="12" height="14"/>
+                    <!-- Battlements center -->
+                    <rect x="183" y="173" width="14" height="15"/>
+                    <rect x="203" y="173" width="14" height="15"/>
+                    <rect x="283" y="173" width="14" height="15"/>
+                    <rect x="303" y="173" width="14" height="15"/>
+                    <!-- Center tower battlements -->
+                    <rect x="213" y="73" width="12" height="13"/>
+                    <rect x="230" y="73" width="12" height="13"/>
+                    <rect x="247" y="73" width="12" height="13"/>
+                    <rect x="264" y="73" width="12" height="13"/>
+                    <rect x="278" y="73" width="12" height="13"/>
+                    <!-- Flag on top -->
+                    <line x1="250" y1="10" x2="250" y2="-20" stroke="#FFD700" stroke-width="3"/>
+                    <polygon points="250,-20 276,-10 250,-2" fill="#FFD700"/>
+                    <!-- Glow -->
+                    <ellipse cx="250" cy="340" rx="200" ry="30" fill="#1a3a8f" opacity="0.5"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── SLIDE 3: Cruises ── -->
+    <div class="slide" id="slide-cruise">
+        <div class="cruise-left">
+            <div class="cruise-headline">
+                Set Sail for<br><span class="gold">Your Best Day Ever</span>
+            </div>
+            <div class="cruise-sub">
+                From Disney Cruise Line to Royal Caribbean — our travel specialists book it all. Free planning, free advice, only <strong style="color:white">$200 to reserve.</strong>
+            </div>
+            <div class="cruise-lines">
+                <div class="cruise-line">🚢 Disney Cruise Line</div>
+                <div class="cruise-line">⚓ Royal Caribbean</div>
+                <div class="cruise-line">🌊 Norwegian Cruise</div>
+                <div class="cruise-line">🎭 Carnival Cruise</div>
+                <div class="cruise-line">🌴 Sandals & Beaches</div>
+                <div class="cruise-line">✨ Celebrity Cruises</div>
+            </div>
+        </div>
+        <div class="cruise-right">
+            <div class="ocean">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="ship-emoji">🛳️</div>
+        </div>
+    </div>
+
+    <!-- ── SLIDE 4: QR Code CTA ── -->
+    <div class="slide" id="slide-qr">
+        <div class="qr-left">
+            <div class="qr-eyebrow">Free Vacation Planning</div>
+            <div class="qr-headline">
+                Scan to<br>Start Your<br><span class="gold">Adventure</span>
+            </div>
+            <div class="qr-body">
+                We'll build your full itinerary within one hour — no fees, no obligation.
+            </div>
+            <div class="qr-points">
+                <div class="qr-point"><div class="qr-check">✓</div> Only $200 to reserve your trip</div>
+                <div class="qr-point"><div class="qr-check">✓</div> Pay in full 30 days before travel</div>
+                <div class="qr-point"><div class="qr-check">✓</div> 35,000+ vacations planned</div>
+                <div class="qr-point"><div class="qr-check">✓</div> Diamond Authorized Disney Agency</div>
+            </div>
+        </div>
+        <div class="qr-right">
+            <div class="qr-frame">
+                <!--
+                    REPLACE the src URL below with your QR code once the site is deployed.
+                    Generate at: https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=YOUR_URL
+                    Example: https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://yoursite.netlify.app
+                -->
+                <img
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&color=0d1b4b&data=https://bestdayevervacations.com"
+                    alt="Scan to plan your vacation"
+                    onerror="this.style.background='#e5e7eb'; this.style.width='280px'; this.style.height='280px';"
+                >
+            </div>
+            <div class="qr-caption">Scan with your phone camera</div>
+            <div class="qr-url">Best Day Ever Vacations</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Progress bar -->
+<div class="progress-wrap">
+    <div class="progress-bar" id="progress"></div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    // ── Pricing slide: populate from URL params or remove ──
+    // URL format: ?p1=1.25&n1=Dark+Roast&s1=12oz&p2=1.50&n2=Medium+Roast&s2=12oz ...
+    // s# = size label (optional, defaults to "12 oz")
+    const grid = document.getElementById('price-grid');
+    const coffeeSlide = document.getElementById('slide-coffee');
+    let hasPrices = false;
+
+    for (let i = 1; i <= 6; i++) {
+        const price = params.get('p' + i);
+        const name  = params.get('n' + i);
+        if (!price && !name) continue;
+        hasPrices = true;
+        const size = params.get('s' + i) || '12 oz';
+        const card = document.createElement('div');
+        card.className = 'price-card';
+        card.innerHTML = `
+            <div class="price-size">${size}</div>
+            <div class="price-amount">$${parseFloat(price || 0).toFixed(2)}</div>
+            <div class="price-unit">per cup</div>
+            <div class="price-name">${name || ''}</div>
+        `;
+        grid.appendChild(card);
+    }
+
+    if (!hasPrices) {
+        coffeeSlide.remove();
+    }
+
+    // ── Generate stars ──
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size = Math.random() * 3 + 1;
+        s.style.cssText = `
+            width:${size}px; height:${size}px;
+            top:${Math.random() * 85}%;
+            left:${Math.random() * 100}%;
+            animation-delay:${Math.random() * 3}s;
+            animation-duration:${1.5 + Math.random() * 2}s;
+        `;
+        starsEl.appendChild(s);
+    }
+
+    // ── Slideshow ──
+    const slides   = Array.from(document.querySelectorAll('.slide'));
+    const progress = document.getElementById('progress');
+    const DURATION = 9000; // ms per slide
+    let current    = 0;
+    let start      = performance.now();
+
+    // Activate first slide (in case coffee slide was removed)
+    slides[0].classList.add('active');
+
+    function tick(now) {
+        const elapsed = now - start;
+        const pct     = Math.min(elapsed / DURATION * 100, 100);
+        progress.style.width = pct + '%';
+
+        if (elapsed >= DURATION) {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+            start = now;
+            progress.style.transition = 'none';
+            progress.style.width = '0%';
+            progress.getBoundingClientRect();
+        }
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
