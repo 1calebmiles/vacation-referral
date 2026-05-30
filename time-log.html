@@ -5,116 +5,105 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Route 504 — Driver's Time Record</title>
 <style>
-    :root {
-    --primary-red:   #C8102E;
-    --dark-red:      #8A1538;
-    --coffee-brown:  #4A2C1D;
-    --text-dark:     #333333;
-    --light-gray:    #F5F5F5;
-    --white:         #FFFFFF;
-    --gold:          #C8A951;
-    --green:         #10b981;
-    --amber:         #f59e0b;
-    --border:        #e0e0e0;
-    --muted:         #666666;
-    --card:          #FFFFFF;
-    /* aliases */
-    --navy:   var(--coffee-brown);
-    --blue:   var(--dark-red);
-    --red:    var(--primary-red);
-    --bg:     var(--light-gray);
-    --text:   var(--text-dark);
+  :root {
+    --primary-red:  #C8102E;
+    --dark-red:     #8A1538;
+    --coffee-brown: #4A2C1D;
+    --gold:         #C8A951;
+    --text-dark:    #222222;
+    --text-mid:     #555555;
+    --light-gray:   #F7F7F7;
+    --border:       #E5E5E5;
+    --white:        #FFFFFF;
+    --green:        #1a9e6e;
+    --card-shadow:  0 2px 16px rgba(0,0,0,.08);
   }
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); padding-bottom:80px; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--light-gray); color:var(--text-dark); padding-bottom:80px; }
 
   /* NAV */
-  .nav { background:var(--coffee-brown); display:flex; justify-content:space-around; padding:10px 0 12px; position:sticky; top:0; z-index:101; box-shadow:0 2px 10px rgba(0,0,0,.35); }
-  .nav a { color:rgba(255,255,255,.55); text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; gap:3px; align-items:center; transition:color .15s; }
-  .nav a.active,.nav a:hover { color:var(--gold); }
-  .nav a .ni { font-size:20px; }
+  .nav { background:white; border-bottom:3px solid var(--primary-red); display:flex; justify-content:space-around; padding:0; position:sticky; top:0; z-index:200; box-shadow:0 2px 12px rgba(0,0,0,.12); }
+  .nav a { color:#666; text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; align-items:center; gap:2px; padding:10px 20px 8px; border-bottom:3px solid transparent; margin-bottom:-3px; transition:all .2s; letter-spacing:.5px; text-transform:uppercase; }
+  .nav a .ni { font-size:18px; }
+  .nav a.active { color:var(--primary-red); border-bottom-color:var(--primary-red); }
+  .nav a:hover  { color:var(--primary-red); }
 
-  /* HEADER */
-  .page-header { background:white; padding:16px 16px 12px; border-bottom:3px solid var(--red); }
-  .logo-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-  .logo-img { flex-shrink:0; } .logo-circle { width:52px; height:52px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .logo-circle svg { width:36px; height:36px; fill:white; }
-  .doc-title { font-size:15px; font-weight:800; color:var(--text); line-height:1.3; }
-  .doc-title span { font-size:12px; font-weight:500; color:var(--muted); display:block; }
-
-  .meta-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:13px; }
-  .meta-field { display:flex; align-items:center; gap:5px; }
-  .meta-field strong { font-weight:800; }
-  .meta-field select { border:none; border-bottom:2px solid var(--navy); font-size:13px; font-weight:700; color:var(--navy); background:transparent; padding:2px 4px; cursor:pointer; }
+  /* PAGE HEADER */
+  .page-header { background:white; padding:14px 18px 12px; border-bottom:1px solid var(--border); }
+  .hdr-top { display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+  .hdr-top img { height:44px; width:auto; flex-shrink:0; }
+  .hdr-top h1 { font-size:16px; font-weight:900; color:var(--text-dark); line-height:1.2; }
+  .hdr-top p  { font-size:11px; color:var(--text-mid); margin-top:2px; }
+  .meta-row { display:flex; flex-wrap:wrap; gap:10px; font-size:12px; color:var(--text-mid); align-items:center; }
+  .meta-row strong { color:var(--text-dark); }
+  .meta-row select { border:none; border-bottom:1.5px solid var(--primary-red); font-size:13px; font-weight:700; color:var(--primary-red); background:transparent; padding:1px 4px; cursor:pointer; }
 
   /* MONTH NAV */
-  .month-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--primary-red); color:white; }
-  .month-nav button { background:rgba(255,255,255,.2); border:none; color:white; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; }
+  .month-nav { background:var(--primary-red); color:white; display:flex; align-items:center; justify-content:space-between; padding:10px 16px; }
+  .month-nav button { background:rgba(255,255,255,.2); border:none; color:white; width:32px; height:32px; border-radius:50%; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; transition:background .15s; }
   .month-nav button:active { background:rgba(255,255,255,.4); }
-  .month-nav .month-label { font-size:16px; font-weight:900; letter-spacing:.3px; }
-  .month-nav .totals-label { font-size:11px; opacity:.85; }
+  .month-center { text-align:center; }
+  .month-name { font-size:16px; font-weight:900; letter-spacing:.3px; }
+  .month-sub  { font-size:11px; opacity:.8; margin-top:2px; }
 
-  /* SUMMARY STRIP */
-  .summary { display:grid; grid-template-columns:repeat(3,1fr); background:var(--coffee-brown); color:white; }
-  .sum-item { text-align:center; padding:10px 4px; border-right:1px solid rgba(255,255,255,.1); }
+  /* SUMMARY */
+  .summary { display:grid; grid-template-columns:repeat(3,1fr); background:white; border-bottom:1px solid var(--border); }
+  .sum-item { padding:12px 8px; text-align:center; border-right:1px solid var(--border); }
   .sum-item:last-child { border:none; }
-  .sum-val { font-size:20px; font-weight:900; color:var(--gold); }
-  .sum-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; opacity:.7; margin-top:2px; }
+  .sum-val { font-size:22px; font-weight:900; color:var(--primary-red); }
+  .sum-lbl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:#aaa; margin-top:3px; }
 
   /* TABLE */
   .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; padding:12px; }
-  table { width:100%; border-collapse:collapse; background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.1); font-size:13px; min-width:500px; }
-  thead { background:var(--primary-red); color:white; }
-  thead th { padding:10px 8px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; text-align:center; border-right:1px solid rgba(255,255,255,.2); }
+  table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:var(--card-shadow); border:1px solid var(--border); font-size:13px; min-width:480px; }
+  thead { background:var(--dark-red); color:white; }
+  thead th { padding:10px 8px; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; text-align:center; border-right:1px solid rgba(255,255,255,.15); }
   thead th:last-child { border:none; }
-  thead th.day-col { width:48px; }
-  thead th.time-col { width:110px; }
-  thead th.hrs-col { width:70px; }
-  thead th.note-col { min-width:120px; }
-
-  tbody tr { border-bottom:1px solid #eee; transition:background .1s; }
+  tbody tr { border-bottom:1px solid #f0f0f0; transition:background .1s; }
   tbody tr:last-child { border:none; }
+  tbody tr:hover { background:#fafafa; }
   tbody tr.weekend { background:#fafafa; }
-  tbody tr.weekend td { color:#bbb; }
-  tbody tr.today { background:#fffbeb; }
-  tbody tr.has-data { background:#f0fdf4; }
-  tbody tr:hover { background:#f8faff; }
-  tbody tr.weekend:hover { background:#f5f5f5; }
-
-  td { padding:5px 6px; vertical-align:middle; text-align:center; border-right:1px solid #eee; }
+  tbody tr.weekend td { color:#ccc; }
+  tbody tr.today { background:#fff8f8; }
+  tbody tr.has-data { background:#f5fdf9; }
+  td { padding:6px 8px; vertical-align:middle; text-align:center; border-right:1px solid #f0f0f0; }
   td:last-child { border:none; }
-  .day-num { font-weight:900; font-size:14px; color:var(--navy); width:32px; }
-  .day-of-week { font-size:10px; color:var(--muted); font-weight:600; }
-  .today-badge { display:inline-block; background:var(--gold); color:var(--navy); font-size:8px; font-weight:900; padding:1px 5px; border-radius:8px; margin-top:2px; }
+  .day-num { font-weight:900; font-size:15px; color:var(--text-dark); }
+  .day-dow { font-size:9px; color:var(--text-mid); font-weight:700; text-transform:uppercase; }
+  .today-dot { display:inline-block; width:6px; height:6px; background:var(--primary-red); border-radius:50%; margin-top:2px; }
 
-  /* EDITABLE INPUTS */
-  .time-input { width:100%; border:none; border-bottom:2px solid transparent; text-align:center; font-size:13px; font-weight:700; color:var(--text); background:transparent; padding:3px 2px; border-radius:0; transition:border-color .2s; font-family:inherit; }
-  .time-input:focus { outline:none; border-bottom-color:var(--blue); background:#eff6ff; border-radius:4px; }
-  .time-input.filled { border-bottom-color:var(--green); color:var(--navy); }
-  .time-input.error { border-bottom-color:var(--red); }
-
+  /* INPUTS */
+  .time-inp { width:100%; border:none; border-bottom:2px solid transparent; text-align:center; font-size:13px; font-weight:700; color:var(--text-dark); background:transparent; padding:4px 2px; font-family:inherit; transition:all .2s; }
+  .time-inp:focus { outline:none; border-bottom-color:var(--primary-red); background:#fff8f8; border-radius:4px; }
+  .time-inp.filled { border-bottom-color:var(--green); color:var(--dark-red); }
+  .time-inp.error  { border-bottom-color:var(--primary-red); background:#fef2f2; }
   .hrs-cell { font-weight:900; color:var(--green); font-size:14px; }
   .hrs-cell.empty { color:#ddd; font-weight:400; font-size:12px; }
+  .note-inp { width:100%; border:none; font-size:11px; color:var(--text-mid); background:transparent; padding:3px 4px; font-family:inherit; text-align:left; }
+  .note-inp:focus { outline:none; background:#f9f9f9; border-radius:3px; }
 
-  .comment-input { width:100%; border:none; border-bottom:2px solid transparent; font-size:12px; color:var(--muted); background:transparent; padding:3px 4px; font-family:inherit; }
-  .comment-input:focus { outline:none; border-bottom-color:var(--blue); }
-
-  /* NOTE */
-  .footnote { margin:0 12px 12px; padding:10px 14px; background:white; border-radius:8px; border-left:3px solid var(--red); font-size:11px; color:var(--muted); line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  /* FOOTNOTE */
+  .footnote { margin:0 12px 12px; padding:10px 14px; background:white; border-radius:8px; border-left:3px solid var(--primary-red); font-size:11px; color:var(--text-mid); line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.06); }
 
   /* BOTTOM BAR */
-  .bar { position:fixed; bottom:0; left:0; right:0; background:var(--coffee-brown); padding:10px 16px; display:flex; gap:8px; align-items:center; box-shadow:0 -4px 20px rgba(0,0,0,.3); }
+  .bar { position:fixed; bottom:0; left:0; right:0; background:white; border-top:2px solid var(--border); padding:10px 16px; display:flex; gap:8px; align-items:center; box-shadow:0 -4px 16px rgba(0,0,0,.08); }
   .bar-info { flex:1; }
-  .bar-info .bi-main { font-size:14px; font-weight:900; color:var(--gold); }
-  .bar-info .bi-sub { font-size:10px; color:rgba(255,255,255,.5); margin-top:1px; }
-  .btn-bar { padding:9px 16px; border:none; border-radius:9px; font-size:12px; font-weight:800; cursor:pointer; }
+  .bar-main { font-size:14px; font-weight:900; color:var(--text-dark); }
+  .bar-sub  { font-size:10px; color:var(--text-mid); margin-top:1px; }
+  .btn-bar { padding:9px 16px; border:none; border-radius:8px; font-size:12px; font-weight:800; cursor:pointer; }
   .btn-bar:active { opacity:.8; }
-  .btn-email { background:var(--gold); color:var(--navy); }
-  .btn-clear { background:rgba(255,255,255,.1); color:white; border:1px solid rgba(255,255,255,.2); }
+  .btn-email { background:var(--primary-red); color:white; }
+  .btn-print { background:var(--light-gray); color:var(--text-dark); border:1.5px solid var(--border); }
 
   /* TOAST */
-  .toast { position:fixed; bottom:72px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--coffee-brown); color:white; padding:9px 18px; border-radius:30px; font-size:13px; font-weight:700; z-index:999; transition:transform .3s; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+  .toast { position:fixed; bottom:72px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--text-dark); color:white; padding:9px 18px; border-radius:30px; font-size:13px; font-weight:700; z-index:999; transition:transform .3s; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,.25); }
   .toast.show { transform:translateX(-50%) translateY(0); }
+
+  @media print {
+    .nav, .bar, .month-nav, .toast { display:none; }
+    body { background:white; padding:0; }
+    table { box-shadow:none; border:1px solid #ccc; }
+  }
 </style>
 </head>
 <body>
@@ -126,28 +115,25 @@
 </nav>
 
 <div class="page-header">
-  <div class="logo-row">
-    <div class="logo-img"><img src="community-coffee-logo.svg" alt="Community Coffee" style="height:52px;width:auto;display:block;"></div>
+  <div class="hdr-top">
+    <img src="community-coffee-logo.png" alt="Community Coffee">
     <div>
-      <div class="doc-title">Driver's Time Record
-        <span>Operations within 150 Air Miles Radius</span>
-      </div>
+      <h1>Driver's Time Record</h1>
+      <p>Operations within 150 Air Miles Radius</p>
     </div>
   </div>
   <div class="meta-row">
-    <div class="meta-field"><strong>Driver:</strong> Caleb Miles</div>
-    <div class="meta-field"><strong>ID:</strong> 12627</div>
-    <div class="meta-field"><strong>Year:</strong>
-      <select id="year-sel" onchange="loadMonth()"></select>
-    </div>
+    <span><strong>Driver:</strong> Caleb Miles</span>
+    <span><strong>ID:</strong> 12627</span>
+    <span><strong>Year:</strong> <select id="year-sel" onchange="loadMonth()"></select></span>
   </div>
 </div>
 
 <div class="month-nav">
   <button onclick="prevMonth()">&#8249;</button>
-  <div>
-    <div class="month-label" id="month-label">June 2026</div>
-    <div class="totals-label" id="month-totals">0 days worked · 0.00 hrs total</div>
+  <div class="month-center">
+    <div class="month-name" id="month-label">June 2026</div>
+    <div class="month-sub"  id="month-totals">0 days &middot; 0.00 hrs</div>
   </div>
   <button onclick="nextMonth()">&#8250;</button>
 </div>
@@ -155,18 +141,18 @@
 <div class="summary">
   <div class="sum-item"><div class="sum-val" id="sum-days">0</div><div class="sum-lbl">Days Worked</div></div>
   <div class="sum-item"><div class="sum-val" id="sum-hrs">0.00</div><div class="sum-lbl">Total Hours</div></div>
-  <div class="sum-item"><div class="sum-val" id="sum-avg">—</div><div class="sum-lbl">Avg Hrs/Day</div></div>
+  <div class="sum-item"><div class="sum-val" id="sum-avg">—</div><div class="sum-lbl">Avg / Day</div></div>
 </div>
 
 <div class="table-wrap">
 <table>
   <thead>
     <tr>
-      <th class="day-col">Day</th>
-      <th class="time-col">Start Time<br><small>(AM/PM)</small></th>
-      <th class="time-col">End Time<br><small>(AM/PM)</small></th>
-      <th class="hrs-col">Total<br>Hours</th>
-      <th class="note-col">Comments</th>
+      <th style="width:50px">Day</th>
+      <th style="width:110px">Start Time<br><small style="font-weight:400;opacity:.7">(AM/PM)</small></th>
+      <th style="width:110px">End Time<br><small style="font-weight:400;opacity:.7">(AM/PM)</small></th>
+      <th style="width:70px">Total<br>Hours</th>
+      <th>Comments</th>
     </tr>
   </thead>
   <tbody id="tbody"></tbody>
@@ -179,15 +165,14 @@
 
 <div class="bar">
   <div class="bar-info">
-    <div class="bi-main" id="bar-main">0.00 hrs this month</div>
-    <div class="bi-sub" id="bar-sub">Tap a cell to edit · auto-saves</div>
+    <div class="bar-main" id="bar-main">0.00 hrs this month</div>
+    <div class="bar-sub">Tap any cell to edit &middot; auto-saves</div>
   </div>
-  <button class="btn-bar btn-clear" onclick="emailMonth()">✉️ Email</button>
-  <button class="btn-bar btn-email" onclick="printPage()">🖨 Print</button>
+  <button class="btn-bar btn-print" onclick="window.print()">Print</button>
+  <button class="btn-bar btn-email" onclick="emailMonth()">Email</button>
 </div>
 
 <div class="toast" id="toast"></div>
-
 <script>
 const SK = 'r504_timecard_v1';
 let state = JSON.parse(localStorage.getItem(SK) || '{}');
