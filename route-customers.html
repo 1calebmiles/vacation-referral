@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Route 504 — Customer Number Lookup</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a202c; }
+  header { background: #1a3a8f; color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  header h1 { font-size: 18px; font-weight: 800; }
+  header p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+  .controls { padding: 12px 16px; background: white; border-bottom: 1px solid #e2e8f0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .controls input { flex: 1; min-width: 160px; padding: 8px 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; }
+  .controls input:focus { outline: none; border-color: #1a3a8f; }
+  .badge { background: #1a3a8f; color: white; border-radius: 12px; padding: 3px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .card { background: white; margin: 8px 12px; border-radius: 12px; padding: 14px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 8px; }
+  .card.done { border-left: 4px solid #10b981; opacity: 0.7; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .cust-name { font-size: 15px; font-weight: 700; color: #1a202c; line-height: 1.3; }
+  .cust-days { font-size: 11px; color: #718096; background: #f7fafc; padding: 2px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .field label { display: block; font-size: 10px; font-weight: 700; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .field input { width: 100%; padding: 8px 10px; border: 2px solid #e2e8f0; border-radius: 7px; font-size: 14px; }
+  .field input:focus { outline: none; border-color: #1a3a8f; }
+  .field.full { grid-column: 1 / -1; }
+  .save-btn { width: 100%; padding: 10px; background: #1a3a8f; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .save-btn.saved { background: #10b981; }
+  .spacer { height: 20px; }
+  .export-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d1b4b; padding: 12px 16px; display: flex; gap: 8px; }
+  .export-bar button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; }
+  .btn-email { background: #f0b429; color: #0d1b4b; }
+  .btn-copy { background: rgba(255,255,255,0.15); color: white; }
+  .hidden { display: none; }
+  .prog { font-size: 12px; color: rgba(255,255,255,0.7); align-self: center; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Route 504 — Customer Lookup</h1>
+  <p>Fill in customer numbers as you visit each account</p>
+</header>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="🔍 Search customer..." oninput="filterCards()">
+  <span class="badge" id="count-badge">131 remaining</span>
+</div>
+
+<div id="card-list"></div>
+<div class="spacer"></div>
+<div class="spacer"></div>
+
+<div class="export-bar">
+  <span class="prog" id="prog-text">0 filled</span>
+  <button class="btn-copy" onclick="copyData()">📋 Copy</button>
+  <button class="btn-email" onclick="emailData()">✉️ Email to Caleb</button>
+</div>
+
+<script>
+const customers = [
+  {name: 'ABUNDANT LIFE ASSEMBLYOFGOD', days: 'WEEK 3 DAY 4'},
+  {name: 'AFLAC', days: 'WEEK 3 DAY 1'},
+  {name: 'AM MINI MART', days: 'WEEK 3 DAY 4'},
+  {name: 'AMERICAN SCREENING CORPORATION', days: 'WEEK 4 DAY 4'},
+  {name: 'AMERICAN TILE', days: 'WEEK 1 DAY 4'},
+  {name: 'ANDERSON OIL N GAS', days: 'WEEK 3 DAY 3'},
+  {name: 'ARMADILLO MEXICAN GRILL MANSFIELD', days: 'WEEK 3 DAY 3'},
+  {name: 'ASH GROVE CEMENT CO', days: 'WEEK 1 DAY 4'},
+  {name: 'AZALEA ESTATES', days: 'WEEK 2 DAY 5'},
+  {name: 'BEST DONUTS', days: 'WEEK 3 DAY 2'},
+  {name: 'BLUE CROSS - LA SHREVEPORT', days: 'WEEK 1 DAY 4'},
+  {name: 'BODACIOUS BBQ 🍗', days: 'WEEK 4 DAY 1'},
+  {name: 'BROOKWOOD BAPTIST CHURCH', days: 'WEEK 2 DAY 4'},
+  {name: 'C-K ASSOCIATES - SHREVEPORT', days: 'WEEK 3 DAY 1'},
+  {name: 'CALVARY BAPTIST CHURCH', days: 'WEEK 2 DAY 4'},
+  {name: 'CARTER FCU - LA MANSFIELD', days: 'WEEK 2 DAY 3'},
+  {name: 'CENTURIES FUNERAL HOME', days: 'WEEK 1 DAY 4'},
+  {name: 'CHECKOUT #40 INC', days: 'WEEK 1 DAY 2, WEEK 3 DAY 2'},
+  {name: 'CHESAPEAKE - LA MANSFIELD', days: 'WEEK 2 DAY 3'},
+  {name: 'CHRISTUS HIGHLAND NOURISHMENT', days: 'WEEK 1 DAY 5, WEEK 3 DAY 5'},
+  {name: 'CITGO', days: 'WEEK 2 DAY 1'},
+  {name: 'CITGO - 70TH ST', days: 'WEEK 3 DAY 1'},
+  {name: 'CLASSIC STONE COMPANY', days: 'WEEK 1 DAY 4'},
+  {name: 'CLECO', days: 'WEEK 3 DAY 3'},
+  {name: 'CLECO - LA MANSFIELD', days: 'WEEK 2 DAY 3'},
+  {name: 'CLERK OF COURT - DESOTO PARISH', days: 'WEEK 4 DAY 3'},
+  {name: 'COLDWELL BANKER - LA SHREVEPORT', days: 'WEEK 1 DAY 4'},
+  {name: 'COMCAST SHREVEPORT 2', days: 'WEEK 3 DAY 1'},
+  {name: 'CUSTOM RETAIL STORE FIXTURES LLC', days: 'WEEK 1 DAY 4'},
+  {name: 'CYPRESS BAPTIST CHURCH SOUTH', days: 'WEEK 4 DAY 1'},
+  {name: 'DAIRY QUEEN 44471', days: 'WEEK 1 DAY 2'},
+  {name: 'DAIRY QUEEN BRAZIER', days: 'WEEK 3 DAY 2'},
+  {name: 'DERMATOLOGY & SKIN SURGERY INC', days: 'WEEK 1 DAY 4'},
+  {name: 'DESOTO FIRE DIST #8', days: 'WEEK 2 DAY 3'},
+  {name: 'DESOTO FIRE DIST 9', days: 'WEEK 2 DAY 3'},
+  {name: 'DESOTO PARISH FIRE DISTRICT NO', days: 'WEEK 2 DAY 2'},
+  {name: 'DESOTO PARISH SHERIFFS OFFICE', days: 'WEEK 4 DAY 3'},
+  {name: 'EAST RIDGE COUNTRY CLUB', days: 'WEEK 4 DAY 4'},
+  {name: 'EAST WEST GROCERY AND FOOD', days: 'WEEK 2 DAY 1'},
+  {name: 'EL PASO', days: 'WEEK 1 DAY 1, WEEK 3 DAY 1'},
+  {name: 'EL PATIO', days: 'WEEK 2 DAY 2'},
+  {name: 'ELLIOTT ELECTRIC', days: 'WEEK 3 DAY 4'},
+  {name: 'ENBRIDGE', days: 'WEEK 3 DAY 2'},
+  {name: 'ENTERPRISE PRODUCTS - KEATCHIE', days: 'WEEK 3 DAY 2'},
+  {name: 'ENTERPRISE PRODUCTS BATTLEFIELD', days: 'WEEK 3 DAY 3'},
+  {name: 'ENTERPRISE PRODUCTS PLEASANT HILL', days: 'WEEK 1 DAY 3'},
+  {name: 'FLEAUX SERVICES - LA SHREVEPORT', days: 'WEEK 3 DAY 4'},
+  {name: 'FRANKS LOUISIANA KITCHEN', days: 'WEEK 1 DAY 3'},
+  {name: 'G & C HONDA - LA SHREVEPORT', days: 'WEEK 3 DAY 1'},
+  {name: 'G MAX', days: 'WEEK 3 DAY 4'},
+  {name: 'GARDEN PARK NURSING & REHAB', days: 'WEEK 3 DAY 4'},
+  {name: 'GRACE COMMUNITY CHURCH', days: 'WEEK 4 DAY 4'},
+  {name: 'HOLLY AND SHELBY LLC', days: 'WEEK 2 DAY 3'},
+  {name: 'IBC COUNTRY CONVENIENCE', days: 'WEEK 1 DAY 3, WEEK 3 DAY 3'},
+  {name: 'IBC DIAMOND JUBILEE', days: 'WEEK 2 DAY 4, WEEK 4 DAY 4'},
+  {name: 'IBC EXCEL GAS STATION', days: 'WEEK 2 DAY 4, WEEK 4 DAY 4'},
+  {name: 'IBC HOP IN CIRCLE', days: 'WEEK 1 DAY 5'},
+  {name: 'IBC JJ\'S FAST STOP - LA MANSFIELD', days: 'WEEK 1 DAY 3, WEEK 3 DAY 3'},
+  {name: 'IBC KICKAPOO CORNER', days: 'WEEK 2 DAY 2, WEEK 4 DAY 2'},
+  {name: 'IBC LOGANSPORT TRUCK STOP', days: 'WEEK 3 DAY 2'},
+  {name: 'IBC P AND S PANTRY', days: 'WEEK 1 DAY 3, WEEK 3 DAY 3'},
+  {name: 'IBC SUPER S CRAWDADDYS LLC', days: 'WEEK 2 DAY 2'},
+  {name: 'INTENSIVE SPECIALTY PIERREMONT', days: 'WEEK 1 DAY 1'},
+  {name: 'INTL PAPER - DC', days: 'WEEK 2 DAY 3'},
+  {name: 'J & J EXT CO OF SHREVEPORT LLC', days: 'WEEK 2 DAY 4'},
+  {name: 'JAGUAR ENERGY', days: 'WEEK 2 DAY 2'},
+  {name: 'JEBS GENERAL STORE LLC', days: 'WEEK 3 DAY 2'},
+  {name: 'JOHNNY\'S PIZZA 39', days: 'WEEK 1 DAY 3'},
+  {name: 'JOHNNY\'S PIZZA HOUSE #24', days: 'WEEK 2 DAY 5'},
+  {name: 'KINGS CLUB', days: 'WEEK 2 DAY 2'},
+  {name: 'KWIK SNACK', days: 'WEEK 3 DAY 3'},
+  {name: 'LA BEHAVIORAL HEALTH', days: 'WEEK 2 DAY 4'},
+  {name: 'LBH DIETARY', days: 'WEEK 2 DAY 4, WEEK 4 DAY 4'},
+  {name: 'LBH INTENSIVE OUTPATIENT', days: 'WEEK 2 DAY 4'},
+  {name: 'LICKIN GOOD DONUTS', days: 'WEEK 3 DAY 1, WEEK 4 DAY 4'},
+  {name: 'LIFESHARE - LA SHREVEPORT', days: 'WEEK 1 DAY 4, WEEK 3 DAY 4'},
+  {name: 'LOGANSPORT CASINO', days: 'WEEK 1 DAY 2, WEEK 3 DAY 2'},
+  {name: 'LOT GAMING DBA LOTS OF LUCK#2', days: 'WEEK 3 DAY 3'},
+  {name: 'MANSFIELD DONUTS', days: 'WEEK 3 DAY 3'},
+  {name: 'MERCEDES BENZ OF SHREVEPORT', days: 'WEEK 3 DAY 5'},
+  {name: 'MIAMI LATIN KITCHEN', days: 'WEEK 2 DAY 4'},
+  {name: 'MOODY PRICE', days: 'WEEK 3 DAY 4'},
+  {name: 'MORRIS & DICKSON', days: 'WEEK 4 DAY 5'},
+  {name: 'MRC GLOBAL - LA SHREVEPORT', days: 'WEEK 3 DAY 4'},
+  {name: 'NEEHAO', days: 'WEEK 1 DAY 3'},
+  {name: 'NEW STAR DONUT', days: 'WEEK 1 DAY 2'},
+  {name: 'NORTHWEST IMAGING LLC', days: 'WEEK 1 DAY 5'},
+  {name: 'NTIVA', days: 'WEEK 2 DAY 4'},
+  {name: 'PIERREMONT OAKS TENNIS CLUB', days: 'WEEK 2 DAY 1'},
+  {name: 'PITA DE NOVA', days: 'WEEK 1 DAY 5'},
+  {name: 'PROGRESSIVE BANK - ELLERBE', days: 'WEEK 4 DAY 4'},
+  {name: 'RACEWAY #6942', days: 'WEEK 1 DAY 2, WEEK 3 DAY 2'},
+  {name: 'RACEWAY 70TH ST #6732', days: 'WEEK 2 DAY 1'},
+  {name: 'RACEWAY LINWOOD', days: 'WEEK 2 DAY 4, WEEK 4 DAY 4'},
+  {name: 'RAM HOUSE CAFE', days: 'WEEK 3 DAY 2'},
+  {name: 'RAMIREZ MEXICAN RESTAURANT', days: 'WEEK 3 DAY 2'},
+  {name: 'RED RIVER BANK - EAST KINGS BRANCH', days: 'WEEK 3 DAY 4'},
+  {name: 'RED RIVER BANK - STONEWALL', days: 'WEEK 2 DAY 2'},
+  {name: 'RED RIVER READY MIX', days: 'WEEK 3 DAY 4'},
+  {name: 'RHEOVEST', days: 'WEEK 2 DAY 2'},
+  {name: 'RIVERPARK CHURCH', days: 'WEEK 3 DAY 1'},
+  {name: 'RIVERS EDGE RESTAURANT', days: 'WEEK 3 DAY 2'},
+  {name: 'RYERSON TULL', days: 'WEEK 1 DAY 4'},
+  {name: 'SERVPRO OF SOUTH SHREVEPORT', days: 'WEEK 3 DAY 4'},
+  {name: 'SHANES I', days: 'WEEK 1 DAY 2, WEEK 3 DAY 2'},
+  {name: 'SHOP-A-LOTT #003', days: 'WEEK 1 DAY 3, WEEK 3 DAY 3'},
+  {name: 'SMOKERS PARADISE PLUS', days: 'WEEK 2 DAY 1'},
+  {name: 'SOUTHERN AIR', days: 'WEEK 4 DAY 4'},
+  {name: 'SPECIALTY RISK ASSOC INC', days: 'WEEK 2 DAY 5'},
+  {name: 'SUMMERFIELD ELEMENTARY SCHOOL', days: 'WEEK 1 DAY 2'},
+  {name: 'SUMO SUPREME BUFFET', days: 'WEEK 1 DAY 1'},
+  {name: 'SUSHI BISTRO', days: 'WEEK 4 DAY 4'},
+  {name: 'SWEET GLAZE DOUGHNUT', days: 'WEEK 1 DAY 5'},
+  {name: 'SWEET GLAZED DONUTS', days: 'WEEK 1 DAY 2'},
+  {name: 'SWEPCO', days: 'WEEK 3 DAY 3'},
+  {name: 'THE DONUT SHOP', days: 'WEEK 2 DAY 2'},
+  {name: 'THE OAKS OF LOUISIANA BREAK ROOM', days: 'WEEK 2 DAY 5'},
+  {name: 'THE ORTHOPEDIC CLINIC', days: 'WEEK 1 DAY 1'},
+  {name: 'TOPP GUNN AUTO AUCTION', days: 'WEEK 3 DAY 4'},
+  {name: 'TRANE OF SHREVEPORT', days: 'WEEK 4 DAY 4'},
+  {name: 'UNITED RENTALS - 865', days: 'WEEK 2 DAY 4'},
+  {name: 'UNITED RENTALS - LA SHREVEPORT', days: 'WEEK 2 DAY 4'},
+  {name: 'UNIVERSITY CHURCH OF CHRIST', days: 'WEEK 3 DAY 1'},
+  {name: 'VALERO JEWELLA', days: 'WEEK 3 DAY 4'},
+  {name: 'VILLAGE EXXON', days: 'WEEK 1 DAY 2'},
+  {name: 'WK P BREAST HEALTH CENTER', days: 'WEEK 1 DAY 1'},
+  {name: 'WK P PHYSICAL MED REHAB', days: 'WEEK 1 DAY 1'},
+  {name: 'WK PIERREMONT DIETARY KITCHEN', days: 'WEEK 1 DAY 1, WEEK 3 DAY 1'},
+  {name: 'WK PORTICO DAY SURGERY', days: 'WEEK 1 DAY 1'},
+  {name: 'WK PORTICO IMAGING SUITE 120', days: 'WEEK 1 DAY 1'},
+  {name: 'WK SOUTH DIETARY', days: 'WEEK 1 DAY 2'}
+];
+
+// Load saved data
+const saved = JSON.parse(localStorage.getItem('route504_cust') || '{}');
+
+function renderCards(filter='') {
+  const list = document.getElementById('card-list');
+  const fl = filter.toLowerCase();
+  list.innerHTML = '';
+  let shown = 0, filled = 0;
+  customers.forEach((c, i) => {
+    const d = saved[i] || {};
+    if (d.cust_num) filled++;
+    if (fl && !c.name.toLowerCase().includes(fl) && !c.days.toLowerCase().includes(fl)) return;
+    shown++;
+    const done = !!d.cust_num;
+    list.innerHTML += `
+      <div class="card ${done ? 'done' : ''}" id="card-${i}">
+        <div class="card-header">
+          <div class="cust-name">${c.name}</div>
+          <div class="cust-days">${c.days}</div>
+        </div>
+        <div class="fields">
+          <div class="field">
+            <label>Customer #</label>
+            <input type="tel" placeholder="1xxxxxx" value="${d.cust_num||''}" oninput="saveField(${i},'cust_num',this.value)" id="cn-${i}">
+          </div>
+          <div class="field">
+            <label>Phone</label>
+            <input type="tel" placeholder="(555) 555-5555" value="${d.phone||''}" oninput="saveField(${i},'phone',this.value)">
+          </div>
+          <div class="field full">
+            <label>Contact Person</label>
+            <input type="text" placeholder="Name" value="${d.contact||''}" oninput="saveField(${i},'contact',this.value)">
+          </div>
+          <div class="field full">
+            <label>Email</label>
+            <input type="email" placeholder="email@example.com" value="${d.email||''}" oninput="saveField(${i},'email',this.value)">
+          </div>
+        </div>
+      </div>`;
+  });
+  document.getElementById('count-badge').textContent = (131 - filled) + ' remaining';
+  document.getElementById('prog-text').textContent = filled + ' filled';
+}
+
+function saveField(i, field, val) {
+  if (!saved[i]) saved[i] = {};
+  saved[i][field] = val.trim();
+  localStorage.setItem('route504_cust', JSON.stringify(saved));
+  const d = saved[i];
+  const card = document.getElementById('card-' + i);
+  if (card) card.className = 'card' + (d.cust_num ? ' done' : '');
+  const filled = Object.values(saved).filter(x => x.cust_num).length;
+  document.getElementById('count-badge').textContent = (131 - filled) + ' remaining';
+  document.getElementById('prog-text').textContent = filled + ' filled';
+}
+
+function filterCards() {
+  renderCards(document.getElementById('search').value);
+}
+
+function buildText() {
+  const lines = ['CUSTOMER NAME,CUSTOMER NUMBER,CONTACT PERSON,EMAIL,PHONE'];
+  customers.forEach((c, i) => {
+    const d = saved[i] || {};
+    if (d.cust_num || d.contact || d.email || d.phone) {
+      lines.push(`${c.name},${d.cust_num||''},${d.contact||''},${d.email||''},${d.phone||''}`);
+    }
+  });
+  return lines.join('\n');
+}
+
+function copyData() {
+  navigator.clipboard.writeText(buildText()).then(() => alert('Copied! Paste into Claude to update the directory.'));
+}
+
+function emailData() {
+  const body = encodeURIComponent(buildText());
+  window.location.href = 'mailto:caleb@eaglerockstays.com?subject=Route%20504%20Customer%20Updates&body=' + body;
+}
+
+renderCards();
+</script>
+</body>
+</html>
