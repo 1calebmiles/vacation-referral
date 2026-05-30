@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Route 504 — Customer Directory</title>
 <style>
-  
   :root {
     --primary-red:  #C8102E;
     --dark-red:     #8A1538;
@@ -20,73 +19,30 @@
     --amber:        #d97706;
     --card-shadow:  0 2px 16px rgba(0,0,0,.08);
   }
-
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--light-gray); color:var(--text-dark); padding-bottom:80px; }
 
-  
-  /* ── Nav ── */
-  .nav {
-    background: white;
-    border-bottom: 3px solid var(--primary-red);
-    display: flex;
-    justify-content: space-around;
-    padding: 0;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 2px 12px rgba(0,0,0,.12);
-  }
-  .nav a {
-    color: #666;
-    text-decoration: none;
-    font-size: 11px;
-    font-weight: 700;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    padding: 10px 20px 8px;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -3px;
-    transition: all .2s;
-    letter-spacing: .5px;
-    text-transform: uppercase;
-  }
-  .nav a .ni { font-size: 18px; }
-  .nav a.active { color: var(--primary-red); border-bottom-color: var(--primary-red); }
-  .nav a:hover  { color: var(--primary-red); }
+  /* NAV */
+  .nav { background:white; border-bottom:3px solid var(--primary-red); display:flex; justify-content:space-around; padding:0; position:sticky; top:0; z-index:200; box-shadow:0 2px 12px rgba(0,0,0,.12); }
+  .nav a { color:#666; text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; align-items:center; gap:2px; padding:10px 20px 8px; border-bottom:3px solid transparent; margin-bottom:-3px; transition:all .2s; letter-spacing:.5px; text-transform:uppercase; }
+  .nav a .ni { font-size:18px; }
+  .nav a.active { color:var(--primary-red); border-bottom-color:var(--primary-red); }
+  .nav a:hover   { color:var(--primary-red); }
 
+  /* PAGE HEADER */
+  .page-header { background:white; padding:16px 18px 14px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:14px; }
+  .page-header img { height:46px; width:auto; flex-shrink:0; }
+  .page-header-text h1 { font-size:18px; font-weight:900; color:var(--text-dark); letter-spacing:-.3px; }
+  .page-header-text p  { font-size:12px; color:var(--text-mid); margin-top:2px; }
 
-  /* ── Page header ── */
-  .page-header {
-    background: white;
-    padding: 16px 18px 14px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .page-header img { height: 46px; width: auto; flex-shrink: 0; }
-  .page-header-text h1 { font-size: 18px; font-weight: 900; color: var(--text-dark); letter-spacing: -.3px; }
-  .page-header-text p  { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
-
-  /* ── Progress bar ── */
-  .prog-bar-wrap {
-    background: white;
-    padding: 10px 18px 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .prog-bg { flex:1; height:6px; background:#eee; border-radius:6px; overflow:hidden; }
-  .prog-fill { height:100%; background:var(--primary-red); border-radius:6px; transition:width .4s ease; width:0; }
-  .prog-lbl { font-size:12px; font-weight:800; color:var(--text-mid); white-space:nowrap; }
+  /* PROGRESS */
+  .prog-bar-wrap { background:white; padding:10px 18px 12px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
+  .prog-bg    { flex:1; height:6px; background:#eee; border-radius:6px; overflow:hidden; }
+  .prog-fill  { height:100%; background:var(--primary-red); border-radius:6px; transition:width .4s ease; width:0; }
+  .prog-lbl   { font-size:12px; font-weight:800; color:var(--text-mid); white-space:nowrap; }
   .prog-badge { background:var(--primary-red); color:white; font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; white-space:nowrap; }
 
-  /* ── Search ── */
+  /* SEARCH */
   .searchbar { background:white; padding:10px 14px; border-bottom:1px solid var(--border); display:flex; gap:8px; position:sticky; top:61px; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,.05); }
   .sw { position:relative; flex:1; }
   .si { position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:14px; pointer-events:none; color:#aaa; }
@@ -95,23 +51,22 @@
   .fbtn { padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; background:white; font-size:12px; font-weight:700; color:var(--text-mid); cursor:pointer; white-space:nowrap; transition:all .15s; }
   .fbtn.on { background:var(--primary-red); border-color:var(--primary-red); color:white; }
 
-  /* ── Day tabs ── */
+  /* TABS */
   .tabs { display:flex; gap:6px; padding:10px 14px 8px; overflow-x:auto; scrollbar-width:none; background:white; border-bottom:1px solid var(--border); }
   .tabs::-webkit-scrollbar { display:none; }
   .tab { padding:5px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; border:1.5px solid var(--border); background:white; color:var(--text-mid); transition:all .15s; flex-shrink:0; }
   .tab.on { background:var(--primary-red); border-color:var(--primary-red); color:white; }
 
-  /* ── Cards ── */
+  /* CARDS */
   .cards { padding:12px 12px 0; }
   .card { background:white; border-radius:12px; margin-bottom:10px; box-shadow:var(--card-shadow); border:1px solid var(--border); overflow:hidden; transition:box-shadow .2s; }
-  .card.complete { border-color:var(--green); box-shadow:0 2px 12px rgba(26,158,110,.12); }
-  .card.partial  { border-color:var(--amber); box-shadow:0 2px 8px rgba(217,119,6,.1); }
+  .card.complete { border-color:var(--green); box-shadow:0 2px 12px rgba(26,158,110,.15); }
+  .card.partial  { border-color:var(--amber); box-shadow:0 2px 8px rgba(217,119,6,.12); }
 
   .card-top { display:flex; align-items:center; padding:12px 14px; gap:10px; cursor:pointer; user-select:none; }
-
   .dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:900; flex-shrink:0; border:2px solid var(--border); background:var(--light-gray); color:transparent; transition:all .2s; }
-  .card.complete .dot { background:var(--green); border-color:var(--green); color:white; }
-  .card.partial  .dot { background:var(--amber); border-color:var(--amber); color:white; }
+  .card.complete .dot { background:var(--green);  border-color:var(--green);  color:white; }
+  .card.partial  .dot { background:var(--amber);  border-color:var(--amber);  color:white; }
 
   .ci { flex:1; min-width:0; }
   .cn { font-size:13px; font-weight:800; color:var(--text-dark); line-height:1.3; }
@@ -130,12 +85,12 @@
   .fg input:focus { outline:none; border-color:var(--primary-red); background:white; box-shadow:0 0 0 3px rgba(200,16,46,.08); }
   .fg input.ok { border-color:var(--green); background:#f0fdf8; }
 
-  /* ── Empty state ── */
+  /* EMPTY */
   .empty { text-align:center; padding:56px 24px; color:#bbb; }
   .empty .ei { font-size:44px; margin-bottom:10px; }
-  .empty h3 { font-size:16px; font-weight:800; color:var(--text-mid); margin-bottom:5px; }
+  .empty h3  { font-size:16px; font-weight:800; color:var(--text-mid); margin-bottom:5px; }
 
-  /* ── Bottom bar ── */
+  /* BOTTOM BAR */
   .bar { position:fixed; bottom:0; left:0; right:0; background:white; border-top:2px solid var(--border); padding:10px 16px; display:flex; gap:10px; align-items:center; box-shadow:0 -4px 16px rgba(0,0,0,.08); }
   .bstat { font-size:10px; font-weight:700; color:var(--text-mid); line-height:1.4; text-transform:uppercase; letter-spacing:.4px; }
   .bstat span { color:var(--text-dark); font-size:18px; font-weight:900; display:block; line-height:1; }
@@ -145,7 +100,7 @@
   .bcopy { background:var(--light-gray); color:var(--text-dark); border:1.5px solid var(--border); }
   .bsend { background:var(--primary-red); color:white; }
 
-  /* ── Toast ── */
+  /* TOAST */
   .toast { position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-70px); background:var(--text-dark); color:white; padding:9px 18px; border-radius:30px; font-size:13px; font-weight:700; z-index:999; transition:transform .3s; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,.25); }
   .toast.show { transform:translateX(-50%) translateY(0); }
   @media(max-width:360px){ .fields{grid-template-columns:1fr;} .fg.full{grid-column:1;} }
@@ -204,98 +159,193 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const TOTAL=190, SK='r504dir_v1';
-const customers=[{"name": "A'S B QUICK", "num": "1062048", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ABUNDANT LIFE ASSEMBLYOFGOD", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AFLAC", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "ALLSTAR FORD STONEWALL", "num": "1189978", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "AM MINI MART", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AMERICAN SCREENING CORPORATION", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AMERICAN TILE", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "ANDERSON OIL N GAS", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ARMADILLO MEXICAN GRILL MANSFIELD", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ARNOLD’S COUNTRY CORNER", "num": "1184506", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ASH GROVE CEMENT CO", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AZALEA ESTATES", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "A’S B QUICK", "num": "1062048", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "BANK CORP SOUTH-WEALTH MGMT", "num": "1136939", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BARKSDALE FCU MANSFIELD RD", "num": "1176363", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "BEST DONUTS", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "BLUE CROSS - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "BODACIOUS BBQ", "num": "1160707", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BODACIOUS BBQ", "num": "", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BROOKWOOD BAPTIST CHURCH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "C-K ASSOCIATES - SHREVEPORT", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CADDO PARISH FARM BUREAU INC", "num": "1021891", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CALUMET PACKAGING", "num": "1179635", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CALVARY BAPTIST CHURCH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CAMPUS FEDERAL CREDIT UNION", "num": "1075543", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CARTER FCU - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CENTURIES FUNERAL HOME", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CHECKOUT #40 INC", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "CHESAPEAKE - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND", "num": "1175490", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND MARKET", "num": "1187654", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND NOURISHMENT", "num": "", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CITGO", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CITGO - 70TH ST", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CITY OF MANSFIELD - POLICE", "num": "1054507", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLASSIC STONE COMPANY", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CLECO", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLECO - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLERK OF COURT - DESOTO PARISH", "num": "", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "COLDWELL BANKER - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "COMCAST SHREVEPORT 2", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "COUNTER CULTURE YOUREE LLC", "num": "1100903", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "COUNTRY TAVERN BARBECUE", "num": "1186549", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CUSTOM RETAIL STORE FIXTURES LLC", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CYPRESS BAPTIST CHURCH SOUTH", "num": "", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "DAIRY QUEEN 44471", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DAIRY QUEEN BRAZIER", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DERMATOLOGY & SKIN SURGERY INC", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO FIRE DIST #8", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO FIRE DIST 9", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO PARISH FIRE DISTRICT NO", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO PARISH SHERIFFS OFFICE", "num": "", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "EAST RIDGE COUNTRY CLUB", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "EAST WEST GROCERY AND FOOD", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "EL PASO", "num": "", "days": "WEEK 1 DAY 1, WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "EL PATIO", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ELLIOTT ELECTRIC", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "ENBRIDGE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE - LA SHREVEPORT", "num": "1094699", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS", "num": "1055875", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS - KEATCHIE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS BATTLEFIELD", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS PLEASANT HILL", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "FIRST BAPTIST KEITHVILLE", "num": "1177100", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "FLASHBACK CASINO", "num": "1159070", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "FLEAUX SERVICES - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "FRANKS LOUISIANA KITCHEN", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "G & C HONDA - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "G MAX", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GARDEN PARK NURSING & REHAB", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GRACE COMMUNITY CHURCH", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GRAEWOOD BAPTIST CHURCH", "num": "1143209", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "HAMPTON INN & SUITES SHREVEPORT", "num": "1187504", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "HOLLY AND SHELBY LLC", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "HOLMES AUTO GROUP", "num": "1109603", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "HOME 2 SUITES SHREVEPORT", "num": "1187503", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "IBC COUNTRY CONVENIENCE", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC DERREK COLQUITT", "num": "1162442", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC DIAMOND JUBILEE", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "IBC EAGLE TRUCK STOP", "num": "1002326", "days": "WEEK 2 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC EXCEL GAS STATION", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "IBC HOP IN CIRCLE", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "IBC JJ'S FAST STOP - LA MANSFIELD", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC KICKAPOO CORNER", "num": "", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC LOGANSPORT TRUCK STOP", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC P AND S PANTRY", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC S & A TRUCKSTOP", "num": "1077596", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC SOUTHERN PANTRY", "num": "1088268", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "IBC STONEWALL SHELL", "num": "1162018", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC SUPER S CRAWDADDYS LLC", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IC WAG A BAG", "num": "1018526", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "INTENSIVE SPECIALTY PIERREMONT", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "INTL PAPER - DC", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "INTL PAPER - LA MANSFIELD", "num": "1028797", "days": "WEEK 2 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "J & J EXT CO OF SHREVEPORT LLC", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "JAGUAR ENERGY", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "JEBS GENERAL STORE LLC", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY'S PIZZA 39", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY'S PIZZA HOUSE #24", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY’S PIZZA HOUSE #12", "num": "1111250", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "KINGS CLUB", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "KWIK SNACK", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "LA BEHAVIORAL HEALTH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LAND ROVER SHREVEPORT", "num": "1161372", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "LBH DIETARY", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LBH INTENSIVE OUTPATIENT", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LICKIN GOOD DONUTS", "num": "", "days": "WEEK 3 DAY 1, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LIFESHARE - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4, WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LOGANSPORT CASINO", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "LOT GAMING DBA LOTS OF LUCK#2", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD CASINO", "num": "1027292", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD DONUTS", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD TRAVEL PLAZA", "num": "1005169", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MERCEDES BENZ OF SHREVEPORT", "num": "", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "MIAMI LATIN KITCHEN", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "MOODY PRICE", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "MORRIS & DICKSON", "num": "", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "MRC GLOBAL - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "NEEHAO", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "NEW STAR DONUT", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "NORTHWEST IMAGING LLC", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "NORTHWEST LA VETERANS CENTER", "num": "1171675", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "NTIVA", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "OMNI SPECIALTY PACKAGING", "num": "1122856", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PIERREMONT OAKS TENNIS CLUB", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PIONEER", "num": "1160863", "days": "WEEK 2 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PITA DE NOVA", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PRATT PAPER (LA) LLC", "num": "1067403", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PRATT PAPER MRF", "num": "1141768", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE - LA SHREVEPORT", "num": "1072649", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE BANK", "num": "1146736", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE BANK - ELLERBE", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY #6733", "num": "1085433", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY #6942", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY 70TH ST #6732", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY LINWOOD", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RAM HOUSE CAFE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RAMIREZ MEXICAN RESTAURANT", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER BANK - EAST KINGS BRANCH", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER BANK - STONEWALL", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER READY MIX", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RELAY STATION HWY 1", "num": "1123013", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RELAY STATION I49", "num": "1123014", "days": "WEEK 1 DAY 3, WEEK 2 DAY 3, WEEK 3 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "RHEOVEST", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RIVERPARK CHURCH", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "RIVERS EDGE RESTAURANT", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ROUNDTREE COLLISION", "num": "1160693", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RYERSON TULL", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SERVPRO OF SOUTH SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SHANES I", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SHANES II", "num": "1021138", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SHOP-A-LOTT #003", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "SHREVEPORT REHAB HOSPITAL", "num": "1179465", "days": "WEEK 2 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SMOKERS PARADISE PLUS", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN AIR", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN HILLS IN N OUT", "num": "1056043", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN MAID DONUTS", "num": "1015770", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SPECIALTY RISK ASSOC INC", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "STONEWALL C STORE", "num": "1030331", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SUMMERFIELD ELEMENTARY SCHOOL", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SUMO SUPREME BUFFET", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUPERIOR GRILL", "num": "1056491", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUPERIOR STEAK HOUSE", "num": "1038845", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUSHI BISTRO", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SWEET GLAZE DOUGHNUT", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "SWEET GLAZED DONUTS", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SWEPCO", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "THE DONUT SHOP", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "THE GLEN COMMUNITY", "num": "1160860", "days": "WEEK 1 DAY 5, WEEK 2 DAY 5, WEEK 3 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE MARKET PLACE AT THE OAKS", "num": "1190053", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE OAKS OF LOUISIANA BREAK ROOM", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE ORTHOPEDIC CLINIC", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "TOPP GUNN AUTO AUCTION", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "TOWER AT THE OAKS", "num": "1148100", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "TOWER AT THE SAVANNAH", "num": "1150907", "days": "WEEK 1 DAY 5, WEEK 2 DAY 5, WEEK 3 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "TRANE OF SHREVEPORT", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "TRIPLE JJJ", "num": "1062615", "days": "WEEK 1 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "UNITED RENTALS - 865", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "UNITED RENTALS - LA SHREVEPORT", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "UNIVERSITY CHURCH OF CHRIST", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "VALERO JEWELLA", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "VILLAGE EXXON", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "VOLVO CARS SHREVEPORT", "num": "1183104", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "WINDRUSH GRILL LLC", "num": "1068887", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "WK P BREAST HEALTH CENTER", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK P PHYSICAL MED REHAB", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PIERREMONT DIETARY KITCHEN", "num": "", "days": "WEEK 1 DAY 1, WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PORTICO DAY SURGERY", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PORTICO IMAGING SUITE 120", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK SOUTH DIETARY", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}];
-let saved=JSON.parse(localStorage.getItem(SK)||'{}');
-let needOnly=false,dayFilter='';
-function fd(i){return saved[i]||{};}
-function effVal(i,f){const d=fd(i);return d[f]!==undefined?d[f]:customers[i][f]||'';}
-function isComplete(i){return !!(effVal(i,'contact')&&effVal(i,'email')&&effVal(i,'phone'));}
-function isPartial(i){return !isComplete(i)&&!!(effVal(i,'contact')||effVal(i,'email')||effVal(i,'phone')||effVal(i,'num'));}
-function stats(){let c=0,p=0;customers.forEach((_,i)=>{if(isComplete(i))c++;else if(isPartial(i))p++;});return{c,p,e:TOTAL-c-p};}
-function updateHeader(){
-  const s=stats();
-  document.getElementById('sc').textContent=s.c;
-  document.getElementById('sp').textContent=s.p;
-  document.getElementById('se').textContent=s.e;
-  const pct=(s.c/TOTAL*100).toFixed(0);
-  document.getElementById('pfill').style.width=pct+'%';
-  document.getElementById('plbl').textContent=pct+'% complete';
-  document.getElementById('badge').textContent=s.c+' / '+TOTAL;
-}
-function save(i,field,val){
-  if(!saved[i])saved[i]={};
-  saved[i][field]=val.trim();
-  localStorage.setItem(SK,JSON.stringify(saved));
-  const card=document.getElementById('c'+i);
-  if(card){
-    const comp=isComplete(i),part=isPartial(i);
-    card.className='card'+(comp?' complete':part?' partial':'');
-    card.querySelector('.dot').textContent=comp?'✓':part?'·':'';
-    ['num','contact','email','phone'].forEach(f=>{
-      const inp=card.querySelector('[data-f="'+f+'"]');
-      if(inp)inp.className=effVal(i,f)?'ok':'';
-    });
+const TOTAL = 190;
+const SK = 'r504dir_v2'; // v2 = keyed by name, not index
+const customers = [{"name": "A'S B QUICK", "num": "1062048", "days": "WEEK 2 DAY 3", "contact": "Anthony Prescott", "email": "", "phone": "3185642572"}, {"name": "ABUNDANT LIFE ASSEMBLYOFGOD", "num": "1006898", "days": "WEEK 3 DAY 4", "contact": "Mary Gay", "email": "", "phone": "3186173337"}, {"name": "AFLAC", "num": "1121333", "days": "WEEK 3 DAY 1", "contact": "Michael Schroeder", "email": "michael_schroeder@us.aflac.com", "phone": "3185644076"}, {"name": "ALLSTAR FORD STONEWALL", "num": "1189978", "days": "WEEK 2 DAY 2", "contact": "AnnaKate", "email": "annakate@allstarfordstonewall.com", "phone": ""}, {"name": "AM MINI MART", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AMERICAN SCREENING CORPORATION", "num": "1086584", "days": "WEEK 4 DAY 4", "contact": "Deborah Curtis", "email": "dcurtis@americanscreeningcorp.com", "phone": "3186066039"}, {"name": "AMERICAN TILE", "num": "1151670", "days": "WEEK 1 DAY 4", "contact": "Ashley McCall", "email": "snissen@americantileco.com", "phone": ""}, {"name": "ANDERSON OIL N GAS", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ARMADILLO MEXICAN GRILL MANSFIELD", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ARNOLD’S COUNTRY CORNER", "num": "1184506", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ASH GROVE CEMENT CO", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "AZALEA ESTATES", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "A’S B QUICK", "num": "1062048", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "BANK CORP SOUTH-WEALTH MGMT", "num": "1136939", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BARKSDALE FCU MANSFIELD RD", "num": "1176363", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "BEST DONUTS", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "BLUE CROSS - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "BODACIOUS BBQ", "num": "1160707", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BODACIOUS BBQ", "num": "", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "BROOKWOOD BAPTIST CHURCH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "C-K ASSOCIATES - SHREVEPORT", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CADDO PARISH FARM BUREAU INC", "num": "1021891", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CALUMET PACKAGING", "num": "1179635", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CALVARY BAPTIST CHURCH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CAMPUS FEDERAL CREDIT UNION", "num": "1075543", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CARTER FCU - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CENTURIES FUNERAL HOME", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CHECKOUT #40 INC", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "CHESAPEAKE - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND", "num": "1175490", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND MARKET", "num": "1187654", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CHRISTUS HIGHLAND NOURISHMENT", "num": "", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CITGO", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CITGO - 70TH ST", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "CITY OF MANSFIELD - POLICE", "num": "1054507", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLASSIC STONE COMPANY", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CLECO", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLECO - LA MANSFIELD", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "CLERK OF COURT - DESOTO PARISH", "num": "", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "COLDWELL BANKER - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "COMCAST SHREVEPORT 2", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "COUNTER CULTURE YOUREE LLC", "num": "1100903", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "COUNTRY TAVERN BARBECUE", "num": "1186549", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "CUSTOM RETAIL STORE FIXTURES LLC", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "CYPRESS BAPTIST CHURCH SOUTH", "num": "", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "DAIRY QUEEN 44471", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DAIRY QUEEN BRAZIER", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DERMATOLOGY & SKIN SURGERY INC", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO FIRE DIST #8", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO FIRE DIST 9", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO PARISH FIRE DISTRICT NO", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "DESOTO PARISH SHERIFFS OFFICE", "num": "", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "EAST RIDGE COUNTRY CLUB", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "EAST WEST GROCERY AND FOOD", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "EL PASO", "num": "", "days": "WEEK 1 DAY 1, WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "EL PATIO", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ELLIOTT ELECTRIC", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "ENBRIDGE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE - LA SHREVEPORT", "num": "1094699", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS", "num": "1055875", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS - KEATCHIE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS BATTLEFIELD", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "ENTERPRISE PRODUCTS PLEASANT HILL", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "FIRST BAPTIST KEITHVILLE", "num": "1177100", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "FLASHBACK CASINO", "num": "1159070", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "FLEAUX SERVICES - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "FRANKS LOUISIANA KITCHEN", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "G & C HONDA - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "G MAX", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GARDEN PARK NURSING & REHAB", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GRACE COMMUNITY CHURCH", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "GRAEWOOD BAPTIST CHURCH", "num": "1143209", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "HAMPTON INN & SUITES SHREVEPORT", "num": "1187504", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "HOLLY AND SHELBY LLC", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "HOLMES AUTO GROUP", "num": "1109603", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "HOME 2 SUITES SHREVEPORT", "num": "1187503", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "IBC COUNTRY CONVENIENCE", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC DERREK COLQUITT", "num": "1162442", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC DIAMOND JUBILEE", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "IBC EAGLE TRUCK STOP", "num": "1002326", "days": "WEEK 2 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC EXCEL GAS STATION", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "IBC HOP IN CIRCLE", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "IBC JJ'S FAST STOP - LA MANSFIELD", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC KICKAPOO CORNER", "num": "", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC LOGANSPORT TRUCK STOP", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC P AND S PANTRY", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "IBC S & A TRUCKSTOP", "num": "1077596", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC SOUTHERN PANTRY", "num": "1088268", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "IBC STONEWALL SHELL", "num": "1162018", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IBC SUPER S CRAWDADDYS LLC", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "IC WAG A BAG", "num": "1018526", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "INTENSIVE SPECIALTY PIERREMONT", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "INTL PAPER - DC", "num": "", "days": "WEEK 2 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "INTL PAPER - LA MANSFIELD", "num": "1028797", "days": "WEEK 2 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "J & J EXT CO OF SHREVEPORT LLC", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "JAGUAR ENERGY", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "JEBS GENERAL STORE LLC", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY'S PIZZA 39", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY'S PIZZA HOUSE #24", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "JOHNNY’S PIZZA HOUSE #12", "num": "1111250", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "KINGS CLUB", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "KWIK SNACK", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "LA BEHAVIORAL HEALTH", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LAND ROVER SHREVEPORT", "num": "1161372", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "LBH DIETARY", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LBH INTENSIVE OUTPATIENT", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LICKIN GOOD DONUTS", "num": "", "days": "WEEK 3 DAY 1, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LIFESHARE - LA SHREVEPORT", "num": "", "days": "WEEK 1 DAY 4, WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "LOGANSPORT CASINO", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "LOT GAMING DBA LOTS OF LUCK#2", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD CASINO", "num": "1027292", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD DONUTS", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MANSFIELD TRAVEL PLAZA", "num": "1005169", "days": "WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "MERCEDES BENZ OF SHREVEPORT", "num": "", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "MIAMI LATIN KITCHEN", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "MOODY PRICE", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "MORRIS & DICKSON", "num": "", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "MRC GLOBAL - LA SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "NEEHAO", "num": "", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "NEW STAR DONUT", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "NORTHWEST IMAGING LLC", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "NORTHWEST LA VETERANS CENTER", "num": "1171675", "days": "WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "NTIVA", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "OMNI SPECIALTY PACKAGING", "num": "1122856", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "Elizabeth Hutson", "email": "elizabeth.hutson@omnisp.com", "phone": "3186294236"}, {"name": "PIERREMONT OAKS TENNIS CLUB", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PIONEER", "num": "1160863", "days": "WEEK 2 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PITA DE NOVA", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PRATT PAPER (LA) LLC", "num": "1067403", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PRATT PAPER MRF", "num": "1141768", "days": "WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE - LA SHREVEPORT", "num": "1072649", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE BANK", "num": "1146736", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "PROGRESSIVE BANK - ELLERBE", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY #6733", "num": "1085433", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY #6942", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY 70TH ST #6732", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "RACEWAY LINWOOD", "num": "", "days": "WEEK 2 DAY 4, WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RAM HOUSE CAFE", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RAMIREZ MEXICAN RESTAURANT", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER BANK - EAST KINGS BRANCH", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER BANK - STONEWALL", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RED RIVER READY MIX", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "RELAY STATION HWY 1", "num": "1123013", "days": "WEEK 2 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RELAY STATION I49", "num": "1123014", "days": "WEEK 1 DAY 3, WEEK 2 DAY 3, WEEK 3 DAY 3, WEEK 4 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "RHEOVEST", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "RIVERPARK CHURCH", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "RIVERS EDGE RESTAURANT", "num": "", "days": "WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "ROUNDTREE COLLISION", "num": "1160693", "days": "WEEK 1 DAY 5, WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "RYERSON TULL", "num": "", "days": "WEEK 1 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SERVPRO OF SOUTH SHREVEPORT", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SHANES I", "num": "", "days": "WEEK 1 DAY 2, WEEK 3 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SHANES II", "num": "1021138", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SHOP-A-LOTT #003", "num": "", "days": "WEEK 1 DAY 3, WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "SHREVEPORT REHAB HOSPITAL", "num": "1179465", "days": "WEEK 2 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SMOKERS PARADISE PLUS", "num": "", "days": "WEEK 2 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN AIR", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN HILLS IN N OUT", "num": "1056043", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SOUTHERN MAID DONUTS", "num": "1015770", "days": "WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SPECIALTY RISK ASSOC INC", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "STONEWALL C STORE", "num": "1030331", "days": "WEEK 2 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SUMMERFIELD ELEMENTARY SCHOOL", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SUMO SUPREME BUFFET", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUPERIOR GRILL", "num": "1056491", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUPERIOR STEAK HOUSE", "num": "1038845", "days": "WEEK 1 DAY 1, WEEK 2 DAY 1, WEEK 3 DAY 1, WEEK 4 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "SUSHI BISTRO", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "SWEET GLAZE DOUGHNUT", "num": "", "days": "WEEK 1 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "SWEET GLAZED DONUTS", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "SWEPCO", "num": "", "days": "WEEK 3 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "THE DONUT SHOP", "num": "", "days": "WEEK 2 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "THE GLEN COMMUNITY", "num": "1160860", "days": "WEEK 1 DAY 5, WEEK 2 DAY 5, WEEK 3 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE MARKET PLACE AT THE OAKS", "num": "1190053", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE OAKS OF LOUISIANA BREAK ROOM", "num": "", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "THE ORTHOPEDIC CLINIC", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "TOPP GUNN AUTO AUCTION", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "TOWER AT THE OAKS", "num": "1148100", "days": "WEEK 2 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "TOWER AT THE SAVANNAH", "num": "1150907", "days": "WEEK 1 DAY 5, WEEK 2 DAY 5, WEEK 3 DAY 5, WEEK 4 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "TRANE OF SHREVEPORT", "num": "", "days": "WEEK 4 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "TRIPLE JJJ", "num": "1062615", "days": "WEEK 1 DAY 2, WEEK 4 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "UNITED RENTALS - 865", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "UNITED RENTALS - LA SHREVEPORT", "num": "", "days": "WEEK 2 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "UNIVERSITY CHURCH OF CHRIST", "num": "", "days": "WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "VALERO JEWELLA", "num": "", "days": "WEEK 3 DAY 4", "contact": "", "email": "", "phone": ""}, {"name": "VILLAGE EXXON", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}, {"name": "VOLVO CARS SHREVEPORT", "num": "1183104", "days": "WEEK 3 DAY 5", "contact": "", "email": "", "phone": ""}, {"name": "WINDRUSH GRILL LLC", "num": "1068887", "days": "WEEK 1 DAY 3", "contact": "", "email": "", "phone": ""}, {"name": "WK P BREAST HEALTH CENTER", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK P PHYSICAL MED REHAB", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PIERREMONT DIETARY KITCHEN", "num": "", "days": "WEEK 1 DAY 1, WEEK 3 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PORTICO DAY SURGERY", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK PORTICO IMAGING SUITE 120", "num": "", "days": "WEEK 1 DAY 1", "contact": "", "email": "", "phone": ""}, {"name": "WK SOUTH DIETARY", "num": "", "days": "WEEK 1 DAY 2", "contact": "", "email": "", "phone": ""}];
+
+// Load saved overrides (keyed by customer name)
+let saved = JSON.parse(localStorage.getItem(SK) || '{}');
+
+// Migrate old v1 data if present (index-keyed → name-keyed)
+(function migrateV1() {
+  const v1 = JSON.parse(localStorage.getItem('r504dir_v1') || '{}');
+  if (!Object.keys(v1).length) return;
+  let migrated = 0;
+  Object.keys(v1).forEach(idx => {
+    const c = customers[parseInt(idx)];
+    if (!c) return;
+    const key = c.name;
+    if (!saved[key]) { saved[key] = v1[idx]; migrated++; }
+  });
+  if (migrated) {
+    localStorage.setItem(SK, JSON.stringify(saved));
+    console.log('Migrated ' + migrated + ' entries from v1');
   }
+})();
+
+// Get effective value: localStorage override first, then CSV data
+function effVal(name, field) {
+  const ov = saved[name];
+  if (ov && ov[field] !== undefined && ov[field] !== '') return ov[field];
+  const c = customers.find(x => x.name === name);
+  return c ? (c[field] || '') : '';
+}
+
+function isComplete(name) {
+  return !!(effVal(name,'contact') && effVal(name,'email') && effVal(name,'phone'));
+}
+function isPartial(name) {
+  return !isComplete(name) && !!(effVal(name,'contact') || effVal(name,'email') || effVal(name,'phone') || effVal(name,'num'));
+}
+
+function stats() {
+  let c=0, p=0;
+  customers.forEach(cu => {
+    if (isComplete(cu.name)) c++;
+    else if (isPartial(cu.name)) p++;
+  });
+  return {c, p, e: TOTAL - c - p};
+}
+
+function updateHeader() {
+  const s = stats();
+  document.getElementById('sc').textContent = s.c;
+  document.getElementById('sp').textContent = s.p;
+  document.getElementById('se').textContent = s.e;
+  const pct = (s.c / TOTAL * 100).toFixed(0);
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('plbl').textContent = pct + '% complete';
+  document.getElementById('badge').textContent = s.c + ' / ' + TOTAL;
+}
+
+function save(name, field, val) {
+  if (!saved[name]) saved[name] = {};
+  saved[name][field] = val.trim();
+  localStorage.setItem(SK, JSON.stringify(saved));
+  const cardEl = document.getElementById('card-' + CSS.escape(name));
+  if (cardEl) refreshCardState(cardEl, name);
   updateHeader();
 }
-function toggleCard(i){const f=document.getElementById('f'+i);if(f)f.classList.toggle('hide');}
-function setDay(d){
-  dayFilter=d;
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  document.getElementById('tab-'+(d||'all')).classList.add('on');
+
+function refreshCardState(cardEl, name) {
+  const comp = isComplete(name), part = isPartial(name);
+  cardEl.className = 'card' + (comp ? ' complete' : part ? ' partial' : '');
+  const dot = cardEl.querySelector('.dot');
+  if (dot) dot.textContent = comp ? '✓' : part ? '·' : '';
+  ['num','contact','email','phone'].forEach(f => {
+    const inp = cardEl.querySelector('[data-f="' + f + '"]');
+    if (inp) inp.className = effVal(name, f) ? 'ok' : '';
+  });
+}
+
+function toggleCard(name) {
+  const f = document.getElementById('fields-' + CSS.escape(name));
+  if (f) f.classList.toggle('hide');
+}
+
+let needOnly = false, dayFilter = '';
+
+function setDay(d) {
+  dayFilter = d;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('tab-' + (d || 'all')).classList.add('on');
   render();
 }
-function toggleNeed(){needOnly=!needOnly;document.getElementById('fbtn').classList.toggle('on',needOnly);render();}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function render(){
-  const q=document.getElementById('q').value.toLowerCase().trim();
-  let html='<div class="cards">',shown=0;
-  customers.forEach((c,i)=>{
-    if(needOnly&&isComplete(i))return;
-    if(dayFilter&&!c.days.includes('DAY '+dayFilter))return;
-    if(q&&!c.name.toLowerCase().includes(q)&&!c.days.toLowerCase().includes(q))return;
-    shown++;
-    const comp=isComplete(i),part=isPartial(i);
-    const cls='card'+(comp?' complete':part?' partial':'');
-    const dot=comp?'✓':part?'·':'';
-    const numV=effVal(i,'num');
-    const numTag=numV?'<div class="tag-num">'+esc(numV)+'</div>':'<div class="tag-miss">No #</div>';
-    html+='<div class="'+cls+'" id="c'+i+'">';
-    html+='<div class="card-top" onclick="toggleCard('+i+')">';
-    html+='<div class="dot">'+dot+'</div>';
-    html+='<div class="ci"><div class="cn">'+esc(c.name)+'</div><div class="cd">'+esc(c.days)+'</div></div>';
-    html+='<div class="tag-wrap">'+numTag+'</div></div>';
-    const fHide=comp?' hide':'';
-    html+='<div class="fields'+fHide+'" id="f'+i+'">';
-    html+='<div class="fg"><label>Customer #</label><input type="tel" inputmode="numeric" placeholder="1xxxxxx" data-f="num" value="'+esc(effVal(i,"num"))+'" class="'+(effVal(i,"num")?"ok":"")+'" oninput="save('+i+',\'num\',this.value)"></div>';
-    html+='<div class="fg"><label>Phone</label><input type="tel" placeholder="(555) 555-5555" data-f="phone" value="'+esc(effVal(i,"phone"))+'" class="'+(effVal(i,"phone")?"ok":"")+'" oninput="save('+i+',\'phone\',this.value)"></div>';
-    html+='<div class="fg full"><label>Contact Person</label><input type="text" placeholder="Name" data-f="contact" value="'+esc(effVal(i,"contact"))+'" class="'+(effVal(i,"contact")?"ok":"")+'" oninput="save('+i+',\'contact\',this.value)"></div>';
-    html+='<div class="fg full"><label>Email</label><input type="email" placeholder="email@example.com" data-f="email" value="'+esc(effVal(i,"email"))+'" class="'+(effVal(i,"email")?"ok":"")+'" oninput="save('+i+',\'email\',this.value)"></div>';
-    html+='</div></div>';
-  });
-  if(!shown)html+='<div class="empty"><div class="ei">'+(q?'🔍':'🎉')+'</div><h3>'+(q?'No results':'All done!')+'</h3></div>';
-  html+='</div>';
-  document.getElementById('list').innerHTML=html;
+
+function toggleNeed() {
+  needOnly = !needOnly;
+  document.getElementById('fbtn').classList.toggle('on', needOnly);
+  render();
 }
-function buildCSV(){
-  const lines=['"CUSTOMER NAME","CUSTOMER NUMBER","CONTACT PERSON","EMAIL","PHONE"'];
-  customers.forEach((c,i)=>{
-    const num=effVal(i,'num'),contact=effVal(i,'contact'),email=effVal(i,'email'),phone=effVal(i,'phone');
-    if(num||contact||email||phone)
-      lines.push([c.name,num,contact,email,phone].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render() {
+  const q = document.getElementById('q').value.toLowerCase().trim();
+  let html = '<div class="cards">', shown = 0;
+
+  customers.forEach(c => {
+    const name = c.name;
+    if (needOnly && isComplete(name)) return;
+    if (dayFilter && !c.days.includes('DAY ' + dayFilter)) return;
+    if (q && !name.toLowerCase().includes(q) && !c.days.toLowerCase().includes(q)) return;
+    shown++;
+
+    const comp = isComplete(name), part = isPartial(name);
+    const cls  = 'card' + (comp ? ' complete' : part ? ' partial' : '');
+    const dot  = comp ? '✓' : part ? '·' : '';
+    const numV = effVal(name, 'num');
+    const numTag = numV
+      ? '<div class="tag-num">' + esc(numV) + '</div>'
+      : '<div class="tag-miss">No #</div>';
+    const safeId = esc(name).replace(/[^a-zA-Z0-9]/g, '_');
+
+    html += '<div class="' + cls + '" id="card-' + safeId + '">';
+    html += '<div class="card-top" onclick="toggleCard(' + JSON.stringify(name) + ')">';
+    html += '<div class="dot">' + dot + '</div>';
+    html += '<div class="ci"><div class="cn">' + esc(name) + '</div><div class="cd">' + esc(c.days) + '</div></div>';
+    html += '<div class="tag-wrap">' + numTag + '</div></div>';
+
+    const fHide = comp ? ' hide' : '';
+    html += '<div class="fields' + fHide + '" id="fields-' + safeId + '">';
+
+    const fields = [
+      ['num',     'Customer #',     'tel',   'inputmode="numeric" placeholder="1xxxxxx"'],
+      ['phone',   'Phone',          'tel',   'placeholder="(555) 555-5555"'],
+      ['contact', 'Contact Person', 'text',  'placeholder="Name"', 'full'],
+      ['email',   'Email',          'email', 'placeholder="email@example.com"', 'full'],
+    ];
+
+    fields.forEach(([f, lbl, type, attrs, fullCls]) => {
+      const val = effVal(name, f);
+      const ok  = val ? ' class="ok"' : '';
+      const nm  = JSON.stringify(name);
+      html += '<div class="fg' + (fullCls ? ' full' : '') + '">';
+      html += '<label>' + lbl + '</label>';
+      html += '<input type="' + type + '" ' + attrs + ' data-f="' + f + '"' + ok + ' value="' + esc(val) + '" oninput="save(' + nm + ',\'' + f + '\',this.value)">';
+      html += '</div>';
+    });
+
+    html += '</div></div>';
+  });
+
+  if (!shown) html += '<div class="empty"><div class="ei">' + (q ? '🔍' : '🎉') + '</div><h3>' + (q ? 'No results' : 'All done!') + '</h3></div>';
+  html += '</div>';
+  document.getElementById('list').innerHTML = html;
+}
+
+function buildCSV() {
+  const lines = ['"CUSTOMER NAME","CUSTOMER NUMBER","CONTACT PERSON","EMAIL","PHONE"'];
+  customers.forEach(c => {
+    const num = effVal(c.name,'num'), contact = effVal(c.name,'contact');
+    const email = effVal(c.name,'email'), phone = effVal(c.name,'phone');
+    if (num || contact || email || phone)
+      lines.push([c.name, num, contact, email, phone].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
   });
   return lines.join('\n');
 }
-function copyCSV(){navigator.clipboard.writeText(buildCSV()).then(()=>toast('Copied!'));}
-function emailMe(){
-  const s=stats();
-  if(s.c+s.p===0){toast('Fill in at least one customer first');return;}
-  const body=encodeURIComponent('Route 504 Directory Updates\n\n'+buildCSV());
-  window.location.href='mailto:caleb@eaglerockstays.com?subject=Route%20504%20Directory%20Updates&body='+body;
+
+function copyCSV() {
+  navigator.clipboard.writeText(buildCSV()).then(() => toast('Copied!'));
 }
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
-render();updateHeader();
+
+function emailMe() {
+  const s = stats();
+  if (s.c + s.p === 0) { toast('Fill in at least one customer first'); return; }
+  const body = encodeURIComponent('Route 504 Directory Updates\n\n' + buildCSV());
+  window.location.href = 'mailto:caleb@eaglerockstays.com?subject=Route%20504%20Directory%20Updates&body=' + body;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+render();
+updateHeader();
 </script>
 </body>
 </html>
