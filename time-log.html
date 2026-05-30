@@ -5,30 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Route 504 — Driver's Time Record</title>
 <style>
-  :root {
-    --red: #c8102e;
-    --navy: #0d1b4b;
-    --blue: #1a3a8f;
-    --gold: #f0b429;
-    --green: #10b981;
-    --bg: #f5f5f5;
-    --text: #1a1a1a;
-    --muted: #666;
-    --border: #ccc;
+    :root {
+    --primary-red:   #C8102E;
+    --dark-red:      #8A1538;
+    --coffee-brown:  #4A2C1D;
+    --text-dark:     #333333;
+    --light-gray:    #F5F5F5;
+    --white:         #FFFFFF;
+    --gold:          #C8A951;
+    --green:         #10b981;
+    --amber:         #f59e0b;
+    --border:        #e0e0e0;
+    --muted:         #666666;
+    --card:          #FFFFFF;
+    /* aliases */
+    --navy:   var(--coffee-brown);
+    --blue:   var(--dark-red);
+    --red:    var(--primary-red);
+    --bg:     var(--light-gray);
+    --text:   var(--text-dark);
   }
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); padding-bottom:80px; }
 
   /* NAV */
-  .nav { background:var(--navy); display:flex; justify-content:space-around; padding:10px 0 12px; position:sticky; top:0; z-index:100; box-shadow:0 2px 10px rgba(0,0,0,.3); }
-  .nav a { color:rgba(255,255,255,.6); text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; gap:3px; align-items:center; transition:color .15s; }
-  .nav a.active, .nav a:hover { color:var(--gold); }
+  .nav { background:var(--coffee-brown); display:flex; justify-content:space-around; padding:10px 0 12px; position:sticky; top:0; z-index:101; box-shadow:0 2px 10px rgba(0,0,0,.35); }
+  .nav a { color:rgba(255,255,255,.55); text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; gap:3px; align-items:center; transition:color .15s; }
+  .nav a.active,.nav a:hover { color:var(--gold); }
   .nav a .ni { font-size:20px; }
 
   /* HEADER */
   .page-header { background:white; padding:16px 16px 12px; border-bottom:3px solid var(--red); }
   .logo-row { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
-  .logo-circle { width:52px; height:52px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .logo-img { flex-shrink:0; } .logo-circle { width:52px; height:52px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .logo-circle svg { width:36px; height:36px; fill:white; }
   .doc-title { font-size:15px; font-weight:800; color:var(--text); line-height:1.3; }
   .doc-title span { font-size:12px; font-weight:500; color:var(--muted); display:block; }
@@ -39,14 +48,14 @@
   .meta-field select { border:none; border-bottom:2px solid var(--navy); font-size:13px; font-weight:700; color:var(--navy); background:transparent; padding:2px 4px; cursor:pointer; }
 
   /* MONTH NAV */
-  .month-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--red); color:white; }
+  .month-nav { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:var(--primary-red); color:white; }
   .month-nav button { background:rgba(255,255,255,.2); border:none; color:white; width:32px; height:32px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; }
   .month-nav button:active { background:rgba(255,255,255,.4); }
   .month-nav .month-label { font-size:16px; font-weight:900; letter-spacing:.3px; }
   .month-nav .totals-label { font-size:11px; opacity:.85; }
 
   /* SUMMARY STRIP */
-  .summary { display:grid; grid-template-columns:repeat(3,1fr); background:var(--navy); color:white; }
+  .summary { display:grid; grid-template-columns:repeat(3,1fr); background:var(--coffee-brown); color:white; }
   .sum-item { text-align:center; padding:10px 4px; border-right:1px solid rgba(255,255,255,.1); }
   .sum-item:last-child { border:none; }
   .sum-val { font-size:20px; font-weight:900; color:var(--gold); }
@@ -55,7 +64,7 @@
   /* TABLE */
   .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; padding:12px; }
   table { width:100%; border-collapse:collapse; background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.1); font-size:13px; min-width:500px; }
-  thead { background:var(--red); color:white; }
+  thead { background:var(--primary-red); color:white; }
   thead th { padding:10px 8px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; text-align:center; border-right:1px solid rgba(255,255,255,.2); }
   thead th:last-child { border:none; }
   thead th.day-col { width:48px; }
@@ -94,7 +103,7 @@
   .footnote { margin:0 12px 12px; padding:10px 14px; background:white; border-radius:8px; border-left:3px solid var(--red); font-size:11px; color:var(--muted); line-height:1.6; box-shadow:0 1px 4px rgba(0,0,0,.06); }
 
   /* BOTTOM BAR */
-  .bar { position:fixed; bottom:0; left:0; right:0; background:var(--navy); padding:10px 16px; display:flex; gap:8px; align-items:center; box-shadow:0 -4px 20px rgba(0,0,0,.3); }
+  .bar { position:fixed; bottom:0; left:0; right:0; background:var(--coffee-brown); padding:10px 16px; display:flex; gap:8px; align-items:center; box-shadow:0 -4px 20px rgba(0,0,0,.3); }
   .bar-info { flex:1; }
   .bar-info .bi-main { font-size:14px; font-weight:900; color:var(--gold); }
   .bar-info .bi-sub { font-size:10px; color:rgba(255,255,255,.5); margin-top:1px; }
@@ -104,7 +113,7 @@
   .btn-clear { background:rgba(255,255,255,.1); color:white; border:1px solid rgba(255,255,255,.2); }
 
   /* TOAST */
-  .toast { position:fixed; bottom:72px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--navy); color:white; padding:9px 18px; border-radius:30px; font-size:13px; font-weight:700; z-index:999; transition:transform .3s; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+  .toast { position:fixed; bottom:72px; left:50%; transform:translateX(-50%) translateY(60px); background:var(--coffee-brown); color:white; padding:9px 18px; border-radius:30px; font-size:13px; font-weight:700; z-index:999; transition:transform .3s; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,.3); }
   .toast.show { transform:translateX(-50%) translateY(0); }
 </style>
 </head>
@@ -118,9 +127,7 @@
 
 <div class="page-header">
   <div class="logo-row">
-    <div class="logo-circle">
-      <svg viewBox="0 0 24 24"><path d="M20 3H4v10c0 3.9 3.1 7 7 7h2c3.9 0 7-3.1 7-7V3zM8 9V5h8v4H8zm8 4c0 2.8-2.2 5-5 5s-5-2.2-5-5v-2h10v2z"/></svg>
-    </div>
+    <div class="logo-img"><img src="community-coffee-logo.svg" alt="Community Coffee" style="height:52px;width:auto;display:block;"></div>
     <div>
       <div class="doc-title">Driver's Time Record
         <span>Operations within 150 Air Miles Radius</span>

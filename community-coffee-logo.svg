@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+  <!-- Outer white oval border -->
+  <ellipse cx="160" cy="100" rx="156" ry="96" fill="white"/>
+  <!-- Main red oval -->
+  <ellipse cx="160" cy="100" rx="148" ry="89" fill="#C8102E"/>
+  <!-- Inner dark red ring -->
+  <ellipse cx="160" cy="100" rx="148" ry="89" fill="none" stroke="#8A1538" stroke-width="3"/>
+  <!-- Inner white oval outline -->
+  <ellipse cx="160" cy="100" rx="140" ry="82" fill="none" stroke="white" stroke-width="1.5"/>
+
+  <!-- EST. 1919 -->
+  <text x="160" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#C8A951" letter-spacing="2">&#x2022; EST. 1919 &#x2022;</text>
+
+  <!-- FAMILY OWNED -->
+  <text x="160" y="62" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="white" letter-spacing="3">FAMILY OWNED</text>
+
+  <!-- Community (large) -->
+  <text x="160" y="118" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="700" font-style="italic" fill="white">Community</text>
+
+  <!-- COFFEE -->
+  <text x="160" y="152" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="white" letter-spacing="8">COFFEE</text>
+
+  <!-- Registered trademark -->
+  <text x="272" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="white">&#174;</text>
+</svg>

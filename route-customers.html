@@ -5,14 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Route 504 — Customer Directory</title>
 <style>
-  :root{--navy:#0d1b4b;--blue:#1a3a8f;--gold:#f0b429;--green:#10b981;--amber:#f59e0b;--bg:#f0f4f8;--card:#fff;--text:#1a202c;--muted:#64748b;--border:#e2e8f0;}
+    :root {
+    --primary-red:   #C8102E;
+    --dark-red:      #8A1538;
+    --coffee-brown:  #4A2C1D;
+    --text-dark:     #333333;
+    --light-gray:    #F5F5F5;
+    --white:         #FFFFFF;
+    --gold:          #C8A951;
+    --green:         #10b981;
+    --amber:         #f59e0b;
+    --border:        #e0e0e0;
+    --muted:         #666666;
+    --card:          #FFFFFF;
+    /* aliases */
+    --navy:   var(--coffee-brown);
+    --blue:   var(--dark-red);
+    --red:    var(--primary-red);
+    --bg:     var(--light-gray);
+    --text:   var(--text-dark);
+  }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding-bottom:88px;}
-  .nav{background:var(--navy);display:flex;justify-content:space-around;padding:10px 0 12px;position:sticky;top:0;z-index:101;box-shadow:0 2px 10px rgba(0,0,0,.3);}
-  .nav a{color:rgba(255,255,255,.6);text-decoration:none;font-size:11px;font-weight:700;text-align:center;display:flex;flex-direction:column;gap:3px;align-items:center;}
-  .nav a.active,.nav a:hover{color:var(--gold);}
-  .nav a .ni{font-size:20px;}
-  header{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:white;padding:18px 18px 14px;position:sticky;top:56px;z-index:100;box-shadow:0 4px 20px rgba(13,27,75,.35);}
+  .nav { background:var(--coffee-brown); display:flex; justify-content:space-around; padding:10px 0 12px; position:sticky; top:0; z-index:101; box-shadow:0 2px 10px rgba(0,0,0,.35); }
+.nav a { color:rgba(255,255,255,.55); text-decoration:none; font-size:11px; font-weight:700; text-align:center; display:flex; flex-direction:column; gap:3px; align-items:center; transition:color .15s; }
+.nav a.active,.nav a:hover { color:var(--gold); }
+.nav a .ni { font-size:20px; }
+  header{background:linear-gradient(135deg,var(--dark-red) 0%,var(--primary-red) 100%);color:white;padding:18px 18px 14px;position:sticky;top:56px;z-index:100;box-shadow:0 4px 20px rgba(13,27,75,.35);}
   .hdr-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
   header h1{font-size:19px;font-weight:900;letter-spacing:-.3px;line-height:1.2;}
   header .sub{font-size:11px;opacity:.7;margin-top:2px;}
@@ -25,13 +44,13 @@
   .sw{position:relative;flex:1;}
   .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
   .searchbar input{width:100%;padding:9px 11px 9px 33px;border:2px solid var(--border);border-radius:9px;font-size:14px;background:var(--bg);color:var(--text);transition:border-color .2s;}
-  .searchbar input:focus{outline:none;border-color:var(--blue);background:white;}
+  .searchbar input:focus{outline:none;border-color:var(--primary-red);background:white;}
   .fbtn{padding:9px 12px;border:2px solid var(--border);border-radius:9px;background:var(--bg);font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s;}
-  .fbtn.on{background:var(--blue);border-color:var(--blue);color:white;}
+  .fbtn.on{background:var(--dark-red);border-color:var(--primary-red);color:white;}
   .tabs{display:flex;gap:6px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none;}
   .tabs::-webkit-scrollbar{display:none;}
   .tab{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:2px solid var(--border);background:white;color:var(--muted);transition:all .15s;flex-shrink:0;}
-  .tab.on{background:var(--navy);border-color:var(--navy);color:white;}
+  .tab.on{background:var(--coffee-brown);border-color:var(--navy);color:white;}
   .cards{padding:10px 12px 0;}
   .card{background:var(--card);border-radius:14px;margin-bottom:9px;box-shadow:0 1px 6px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);overflow:hidden;transition:box-shadow .2s;}
   .card.complete{box-shadow:0 0 0 2px var(--green),0 2px 8px rgba(16,185,129,.12);}
@@ -52,12 +71,12 @@
   .fg.full{grid-column:1/-1;}
   .fg label{font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;}
   .fg input{padding:8px 10px;border:2px solid var(--border);border-radius:7px;font-size:14px;color:var(--text);background:var(--bg);transition:all .2s;width:100%;}
-  .fg input:focus{outline:none;border-color:var(--blue);background:white;box-shadow:0 0 0 3px rgba(26,58,143,.1);}
+  .fg input:focus{outline:none;border-color:var(--primary-red);background:white;box-shadow:0 0 0 3px rgba(26,58,143,.1);}
   .fg input.ok{border-color:var(--green);background:#f0fdf4;}
   .empty{text-align:center;padding:56px 24px;color:var(--muted);}
   .empty .ei{font-size:44px;margin-bottom:10px;}
   .empty h3{font-size:16px;font-weight:800;color:var(--text);margin-bottom:5px;}
-  .bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);padding:10px 14px;display:flex;gap:9px;align-items:center;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
+  .bar{position:fixed;bottom:0;left:0;right:0;background:var(--coffee-brown);padding:10px 14px;display:flex;gap:9px;align-items:center;box-shadow:0 -4px 20px rgba(0,0,0,.3);}
   .bstat{color:rgba(255,255,255,.6);font-size:10px;font-weight:700;line-height:1.3;white-space:nowrap;}
   .bstat span{color:var(--gold);font-size:16px;font-weight:900;display:block;}
   .bbtns{display:flex;gap:7px;flex:1;justify-content:flex-end;}
@@ -65,7 +84,7 @@
   .ba:active{opacity:.75;}
   .bcopy{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);}
   .bsend{background:var(--gold);color:var(--navy);}
-  .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-70px);background:var(--navy);color:white;padding:9px 18px;border-radius:30px;font-size:13px;font-weight:700;z-index:999;transition:transform .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+  .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-70px);background:var(--coffee-brown);color:white;padding:9px 18px;border-radius:30px;font-size:13px;font-weight:700;z-index:999;transition:transform .3s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.3);}
   .toast.show{transform:translateX(-50%) translateY(0);}
   @media(max-width:360px){.fields{grid-template-columns:1fr;}.fg.full{grid-column:1;}}
 </style>
@@ -73,7 +92,8 @@
 <body>
 <header>
   <div class="hdr-row">
-    <div><h1>Route 504 Directory</h1><div class="sub">Community Coffee &middot; Caleb Miles</div></div>
+    <img src="community-coffee-logo.svg" alt="Community Coffee" style="height:44px;width:auto;flex-shrink:0;">
+    <div style="flex:1;min-width:0;padding:0 10px;"><h1>Route 504 Directory</h1><div class="sub">Caleb Miles &middot; Shreveport, LA</div></div>
     <div class="hdr-badge" id="badge">0 / 190</div>
   </div>
   <div class="prog-wrap">
