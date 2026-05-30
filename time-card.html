@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Route 504 — Time Card</title>
+<style>
+  :root {
+    --navy: #0d1b4b;
+    --blue: #1a3a8f;
+    --gold: #f0b429;
+    --green: #10b981;
+    --red: #ef4444;
+    --bg: #f0f4f8;
+    --card: #fff;
+    --text: #1a202c;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+  /* HEADER */
+  header { background:linear-gradient(135deg,var(--navy),var(--blue)); color:white; padding:20px 20px 18px; text-align:center; }
+  header h1 { font-size:20px; font-weight:900; }
+  header .sub { font-size:12px; opacity:.7; margin-top:3px; }
+  .month-badge { display:inline-block; background:var(--gold); color:var(--navy); font-size:13px; font-weight:900; padding:4px 14px; border-radius:20px; margin-top:10px; }
+
+  /* CLOCK SECTION */
+  .clock-section { padding:20px 16px; }
+
+  .live-time { text-align:center; font-size:48px; font-weight:900; color:var(--navy); letter-spacing:-1px; margin-bottom:4px; font-variant-numeric:tabular-nums; }
+  .live-date { text-align:center; font-size:14px; color:var(--muted); font-weight:600; margin-bottom:20px; }
+
+  .status-card { background:var(--card); border-radius:16px; padding:18px; box-shadow:0 2px 12px rgba(0,0,0,.08); margin-bottom:16px; text-align:center; }
+  .status-label { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin-bottom:6px; }
+  .status-val { font-size:22px; font-weight:900; color:var(--navy); }
+  .status-val.empty { color:var(--border); font-weight:400; font-size:16px; }
+
+  .times-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:16px; }
+  .time-box { background:var(--card); border-radius:12px; padding:14px 10px; text-align:center; box-shadow:0 1px 6px rgba(0,0,0,.07); }
+  .time-box .tl { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin-bottom:5px; }
+  .time-box .tv { font-size:18px; font-weight:900; color:var(--navy); }
+  .time-box .tv.empty { font-size:13px; font-weight:500; color:var(--border); }
+  .time-box.hours .tv { color:var(--green); }
+
+  /* BUTTONS */
+  .btn-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+
+  .btn-clock { padding:20px 12px; border:none; border-radius:14px; font-size:17px; font-weight:900; cursor:pointer; transition:all .15s; display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .btn-clock:active { transform:scale(.96); }
+  .btn-clock .icon { font-size:28px; }
+  .btn-clock .label { font-size:13px; font-weight:800; }
+
+  .btn-in  { background:var(--green); color:white; box-shadow:0 4px 16px rgba(16,185,129,.35); }
+  .btn-out { background:var(--red); color:white; box-shadow:0 4px 16px rgba(239,68,68,.35); }
+  .btn-in:disabled, .btn-out:disabled { opacity:.35; box-shadow:none; cursor:not-allowed; transform:none; }
+
+  .btn-send { width:100%; padding:16px; background:var(--navy); color:white; border:none; border-radius:12px; font-size:16px; font-weight:900; cursor:pointer; margin-bottom:8px; transition:opacity .15s; }
+  .btn-send:active { opacity:.8; }
+  .btn-send:disabled { opacity:.3; cursor:not-allowed; }
+
+  .btn-reset { width:100%; padding:11px; background:transparent; color:var(--muted); border:2px solid var(--border); border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; }
+
+  /* COMMENT */
+  .comment-wrap { background:var(--card); border-radius:12px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,.07); margin-bottom:14px; }
+  .comment-wrap label { font-size:10px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.7px; display:block; margin-bottom:6px; }
+  .comment-wrap textarea { width:100%; border:2px solid var(--border); border-radius:8px; padding:9px 11px; font-size:14px; resize:none; font-family:inherit; color:var(--text); background:var(--bg); }
+  .comment-wrap textarea:focus { outline:none; border-color:var(--blue); background:white; }
+
+  /* HISTORY */
+  .section-title { font-size:13px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.7px; padding:16px 16px 8px; }
+
+  .history { padding:0 16px 100px; }
+  .hist-row { background:var(--card); border-radius:10px; padding:11px 14px; margin-bottom:7px; display:grid; grid-template-columns:40px 1fr 1fr 60px; gap:8px; align-items:center; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .hist-row.today { box-shadow:0 0 0 2px var(--green); }
+  .hist-day { font-size:16px; font-weight:900; color:var(--navy); text-align:center; }
+  .hist-dow { font-size:10px; color:var(--muted); text-align:center; font-weight:600; }
+  .hist-times { font-size:12px; color:var(--text); }
+  .hist-times .ht { font-weight:700; }
+  .hist-times .hm { color:var(--muted); font-size:11px; }
+  .hist-hrs { text-align:right; font-size:14px; font-weight:900; color:var(--green); }
+  .hist-hrs.empty { color:var(--border); font-size:12px; }
+
+  /* TOAST */
+  .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--navy); color:white; padding:10px 20px; border-radius:30px; font-size:14px; font-weight:700; z-index:999; transition:transform .3s; box-shadow:0 4px 20px rgba(0,0,0,.3); white-space:nowrap; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  @media(max-width:360px) { .live-time { font-size:38px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Driver's Time Card</h1>
+  <div class="sub">Caleb Miles · Route 504 · Employer ID 12627</div>
+  <div class="month-badge" id="month-badge">June 2026</div>
+</header>
+
+<div class="clock-section">
+  <div class="live-time" id="live-time">--:-- --</div>
+  <div class="live-date" id="live-date">Loading...</div>
+
+  <div class="times-row">
+    <div class="time-box">
+      <div class="tl">Clock In</div>
+      <div class="tv empty" id="disp-in">—</div>
+    </div>
+    <div class="time-box">
+      <div class="tl">Clock Out</div>
+      <div class="tv empty" id="disp-out">—</div>
+    </div>
+    <div class="time-box hours">
+      <div class="tl">Hours</div>
+      <div class="tv empty" id="disp-hrs">—</div>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-clock btn-in" id="btn-in" onclick="clockIn()">
+      <span class="icon">▶</span>
+      <span class="label">CLOCK IN</span>
+    </button>
+    <button class="btn-clock btn-out" id="btn-out" onclick="clockOut()" disabled>
+      <span class="icon">■</span>
+      <span class="label">CLOCK OUT</span>
+    </button>
+  </div>
+
+  <div class="comment-wrap">
+    <label>Comments (optional)</label>
+    <textarea id="comment" rows="2" placeholder="Notes for today..."></textarea>
+  </div>
+
+  <button class="btn-send" id="btn-send" onclick="sendEntry()" disabled>📧 Submit Today's Entry</button>
+  <button class="btn-reset" onclick="resetDay()">↺ Reset Today</button>
+</div>
+
+<div class="section-title" id="hist-title">June 2026 — Time Log</div>
+<div class="history" id="history"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SK = 'r504_timecard_v1';
+let state = JSON.parse(localStorage.getItem(SK) || '{}');
+
+// ── Live clock ──
+function tick() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  const mm = String(m).padStart(2,'0');
+  const ss = String(s).padStart(2,'0');
+  document.getElementById('live-time').textContent = `${hh}:${mm}:${ss} ${ampm}`;
+  document.getElementById('live-date').textContent = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  document.getElementById('month-badge').textContent = now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  document.getElementById('hist-title').textContent = now.toLocaleDateString('en-US',{month:'long',year:'numeric'}) + ' — Time Log';
+}
+setInterval(tick, 1000);
+tick();
+
+function todayKey() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+}
+
+function formatTime(date) {
+  const h = date.getHours(), m = date.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  return `${hh}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+
+function calcHours(startStr, endStr) {
+  const parse = s => {
+    const [time, ampm] = s.split(' ');
+    let [h, m] = time.split(':').map(Number);
+    if (ampm === 'PM' && h !== 12) h += 12;
+    if (ampm === 'AM' && h === 12) h = 0;
+    return h * 60 + m;
+  };
+  try {
+    let diff = parse(endStr) - parse(startStr);
+    if (diff < 0) diff += 24 * 60;
+    return (diff / 60).toFixed(2);
+  } catch { return null; }
+}
+
+function refreshUI() {
+  const key = todayKey();
+  const entry = state[key] || {};
+  const inTime  = entry.in  || null;
+  const outTime = entry.out || null;
+  const hrs = (inTime && outTime) ? calcHours(inTime, outTime) : null;
+
+  document.getElementById('disp-in').textContent  = inTime  || '—';
+  document.getElementById('disp-in').className    = 'tv' + (inTime  ? '' : ' empty');
+  document.getElementById('disp-out').textContent = outTime || '—';
+  document.getElementById('disp-out').className   = 'tv' + (outTime ? '' : ' empty');
+  document.getElementById('disp-hrs').textContent = hrs ? hrs + ' hrs' : '—';
+  document.getElementById('disp-hrs').className   = 'tv' + (hrs ? '' : ' empty');
+
+  document.getElementById('btn-in').disabled  = !!inTime;
+  document.getElementById('btn-out').disabled = !inTime || !!outTime;
+  document.getElementById('btn-send').disabled = !inTime || !outTime;
+
+  if (entry.comment) document.getElementById('comment').value = entry.comment;
+  renderHistory();
+}
+
+function clockIn() {
+  const key = todayKey();
+  if (!state[key]) state[key] = {};
+  state[key].in = formatTime(new Date());
+  save();
+  toast('⏱ Clocked in at ' + state[key].in);
+  refreshUI();
+}
+
+function clockOut() {
+  const key = todayKey();
+  if (!state[key]) state[key] = {};
+  state[key].out = formatTime(new Date());
+  save();
+  const hrs = calcHours(state[key].in, state[key].out);
+  toast('✓ Clocked out — ' + hrs + ' hrs today');
+  refreshUI();
+}
+
+function resetDay() {
+  if (!confirm('Reset today\'s entry?')) return;
+  const key = todayKey();
+  delete state[key];
+  document.getElementById('comment').value = '';
+  save();
+  refreshUI();
+}
+
+function save() {
+  // Save comment too
+  const key = todayKey();
+  if (state[key]) state[key].comment = document.getElementById('comment').value.trim();
+  localStorage.setItem(SK, JSON.stringify(state));
+}
+
+function sendEntry() {
+  const key = todayKey();
+  const entry = state[key] || {};
+  if (!entry.in || !entry.out) { toast('Clock in and out first'); return; }
+  const comment = document.getElementById('comment').value.trim();
+  const hrs = calcHours(entry.in, entry.out);
+  const now = new Date();
+  const dateStr = key;
+  const subject = encodeURIComponent('Route 504 Time Entry');
+  const body = encodeURIComponent(
+    `DATE: ${dateStr}\nSTART: ${entry.in}\nEND: ${entry.out}\nHOURS: ${hrs}\nCOMMENT: ${comment}`
+  );
+  window.location.href = `mailto:caleb@eaglerockstays.com?subject=${subject}&body=${body}`;
+  // Mark as submitted
+  state[key].submitted = true;
+  save();
+}
+
+function renderHistory() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const todayKey_ = todayKey();
+  const dowNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  let html = '';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dObj = new Date(year, month, d);
+    const key = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const entry = state[key] || {};
+    const isToday = key === todayKey_;
+    const hrs = (entry.in && entry.out) ? calcHours(entry.in, entry.out) : null;
+    const isWeekend = dObj.getDay() === 0 || dObj.getDay() === 6;
+
+    html += `<div class="hist-row${isToday?' today':''}">
+      <div>
+        <div class="hist-day">${d}</div>
+        <div class="hist-dow">${dowNames[dObj.getDay()]}</div>
+      </div>
+      <div class="hist-times">
+        ${entry.in
+          ? `<div class="ht">In: ${entry.in}</div><div class="hm">Out: ${entry.out||'—'}</div>`
+          : `<div class="hm">${isWeekend ? 'Weekend' : isToday ? 'Today' : '—'}</div>`}
+      </div>
+      <div>
+        ${entry.comment ? `<div style="font-size:11px;color:var(--muted)">${entry.comment}</div>` : ''}
+      </div>
+      <div class="hist-hrs${hrs?'':' empty'}">${hrs ? hrs+'h' : '—'}</div>
+    </div>`;
+  }
+  document.getElementById('history').innerHTML = html;
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+refreshUI();
+</script>
+</body>
+</html>
