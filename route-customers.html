@@ -218,11 +218,15 @@ function updateHeader() {
   document.getElementById('badge').textContent = s.c + ' / ' + TOTAL;
 }
 
+function safeIdFor(name) {
+  return String(name).replace(/[^a-zA-Z0-9]/g, '_');
+}
+
 function save(name, field, val) {
   if (!saved[name]) saved[name] = {};
   saved[name][field] = val.trim();
   localStorage.setItem(SK, JSON.stringify(saved));
-  const cardEl = document.getElementById('card-' + CSS.escape(name));
+  const cardEl = document.getElementById('card-' + safeIdFor(name));
   if (cardEl) refreshCardState(cardEl, name);
   updateHeader();
 }
@@ -239,7 +243,7 @@ function refreshCardState(cardEl, name) {
 }
 
 function toggleCard(name) {
-  const f = document.getElementById('fields-' + CSS.escape(name));
+  const f = document.getElementById('fields-' + safeIdFor(name));
   if (f) f.classList.toggle('hide');
 }
 
@@ -282,8 +286,10 @@ function render() {
       : '<div class="tag-miss">No #</div>';
     const safeId = esc(name).replace(/[^a-zA-Z0-9]/g, '_');
 
-    html += '<div class="' + cls + '" id="card-' + safeId + '">';
-    html += '<div class="card-top" onclick="toggleCard(' + JSON.stringify(name) + ')">';
+    const nameAttr = esc(name);
+
+    html += '<div class="' + cls + '" id="card-' + safeId + '" data-name="' + nameAttr + '">';
+    html += '<div class="card-top" data-toggle="1">';
     html += '<div class="dot">' + dot + '</div>';
     html += '<div class="ci"><div class="cn">' + esc(name) + '</div><div class="cd">' + esc(c.days) + '</div></div>';
     html += '<div class="tag-wrap">' + numTag + '</div></div>';
@@ -301,10 +307,9 @@ function render() {
     fields.forEach(([f, lbl, type, attrs, fullCls]) => {
       const val = effVal(name, f);
       const ok  = val ? ' class="ok"' : '';
-      const nm  = JSON.stringify(name);
       html += '<div class="fg' + (fullCls ? ' full' : '') + '">';
       html += '<label>' + lbl + '</label>';
-      html += '<input type="' + type + '" ' + attrs + ' data-f="' + f + '"' + ok + ' value="' + esc(val) + '" oninput="save(' + nm + ',\'' + f + '\',this.value)">';
+      html += '<input type="' + type + '" ' + attrs + ' data-f="' + f + '"' + ok + ' value="' + esc(val) + '">';
       html += '</div>';
     });
 
@@ -343,6 +348,28 @@ function toast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2400);
 }
+
+// Event delegation: catches every input/click without inline handlers
+(function bindListEvents() {
+  const list = document.getElementById('list');
+  if (!list) return;
+  list.addEventListener('input', function(e) {
+    const inp = e.target;
+    if (!inp || inp.tagName !== 'INPUT') return;
+    const field = inp.getAttribute('data-f');
+    if (!field) return;
+    const card = inp.closest('[data-name]');
+    if (!card) return;
+    save(card.getAttribute('data-name'), field, inp.value);
+  });
+  list.addEventListener('click', function(e) {
+    const top = e.target.closest('[data-toggle]');
+    if (!top) return;
+    const card = top.closest('[data-name]');
+    if (!card) return;
+    toggleCard(card.getAttribute('data-name'));
+  });
+})();
 
 render();
 updateHeader();
